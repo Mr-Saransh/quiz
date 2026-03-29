@@ -31,6 +31,6 @@ export function renderAdmin(container) {
   });
 
   document.getElementById('admin-export-btn')?.addEventListener('click', () => {
-    window.open('http://localhost:3001/api/auth/admin/export-users', '_blank');
+    window.open('/api/auth/admin/export-users', '_blank');
   });
 }
