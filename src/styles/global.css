@@ -94,7 +94,7 @@ input, textarea, select {
   position: relative;
   background: var(--cream);
   overflow: hidden;
-  padding-bottom: 80px; /* Space for bottom nav */
+  padding-bottom: 20px; /* Reduced from 80px, the nav now floats or hides */
 }
 
 .section-padding {

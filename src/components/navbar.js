@@ -41,18 +41,63 @@ export function renderNavbar() {
     </nav>
   `;
   
-  // Event listeners
+  const navElement = container.querySelector('.bottom-nav');
+  if (!navElement) return;
+
+  let hideTimeout;
+  const HIDE_DELAY = 3000; // 3 seconds
+
+  function showNav() {
+    navElement.classList.remove('bottom-nav--hidden');
+    resetTimeout();
+  }
+
+  function hideNav() {
+    // Don't hide if it's currently being hovered (for desktops/laptops)
+    if (!window.matchMedia('(pointer: coarse)').matches) {
+       // On desktop, maybe we don't want to hide it as aggressively if mouse is over it
+       // But user specifically asked for mobile view touch/scroll
+    }
+    navElement.classList.add('bottom-nav--hidden');
+  }
+
+  function resetTimeout() {
+    clearTimeout(hideTimeout);
+    hideTimeout = setTimeout(hideNav, HIDE_DELAY);
+  }
+
+  // Listeners for interaction
+  const interactions = ['touchstart', 'touchmove', 'scroll', 'mousemove', 'click'];
+  interactions.forEach(event => {
+    window.addEventListener(event, showNav, { passive: true });
+  });
+
+  // Initial timer
+  resetTimeout();
+
+  // Event listeners for items
   container.querySelectorAll('.bottom-nav__item').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent immediate hide/show logic conflicts
       const item = items.find(i => i.id === btn.id);
       if (item) {
         navigate(item.route);
-        // Dispatch hashchange manually if same route to force update (though hash might not change)
         if (window.location.hash === '#' + item.route) {
           window.dispatchEvent(new Event('hashchange'));
         }
       }
     });
   });
+
+  // Cleanup old listeners if renderNavbar is called again
+  const prevCleanup = container._cleanup;
+  if (prevCleanup) prevCleanup();
+
+  container._cleanup = () => {
+    interactions.forEach(event => {
+      window.removeEventListener(event, showNav);
+    });
+    clearTimeout(hideTimeout);
+  };
 }
 
