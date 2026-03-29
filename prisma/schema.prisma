@@ -8,21 +8,18 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
+  id           String       @id @default(cuid())
   name         String?
   ageClass     String?
   city         String?
   address      String?
   profileImage String?
-  contact      String   @unique
-  authMode  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  results QuizResult[]
+  contact      String       @unique
+  authMode     String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  results      QuizResult[]
 }
-
-
 
 model QuizResult {
   id               String   @id @default(cuid())
@@ -35,14 +32,13 @@ model QuizResult {
   personalityType  String
   personalityEmoji String
   personalityDesc  String
-  topStrengths     String   @default("[]") // JSON
-  areasToImprove   String   @default("[]") // JSON
-  skillPlan        String   @default("[]") // JSON
-  careers          String                  // JSON
+  topStrengths     String   @default("[]")
+  areasToImprove   String   @default("[]")
+  skillPlan        String   @default("[]")
+  careers          String
   hiddenTalent     String
   hiddenTalentDesc String
   answers          String
   createdAt        DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id])
+  user             User     @relation(fields: [userId], references: [id])
 }

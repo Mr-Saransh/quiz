@@ -13,6 +13,14 @@ async function request(path, options = {}) {
   }
 
   const res = await fetch(url, config);
+
+  // Guard against non-JSON responses (e.g. Vercel 404 HTML pages)
+  const contentType = res.headers.get('content-type') || '';
+  if (!contentType.includes('application/json')) {
+    const text = await res.text();
+    throw new Error(`Server error (${res.status}): Expected JSON but got "${text.substring(0, 60)}..."`);
+  }
+
   const data = await res.json();
 
   if (!res.ok) {
