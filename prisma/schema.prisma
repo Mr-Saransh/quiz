@@ -38,6 +38,9 @@ model QuizResult {
   careers          String
   hiddenTalent     String
   hiddenTalentDesc String
+  learningStyle    String   @default("")
+  workEnvironment  String   @default("")
+  actionableAdvice String   @default("")
   answers          String
   createdAt        DateTime @default(now())
   user             User     @relation(fields: [userId], references: [id])

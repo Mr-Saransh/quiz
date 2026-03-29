@@ -115,8 +115,8 @@ export async function renderReport(container, params) {
         <h3 class="report-section__title">✨ Top Strengths</h3>
         <div class="report-traits">
           ${result.topStrengths.map((t, i) => `
-            <div class="report-trait" style="animation-delay:${i * 100}ms;">
-              <div class="report-trait__emoji">${['🌟','💪','🔥','💡'][i] || '⭐'}</div>
+            <div class="report-trait">
+              <div class="report-trait__emoji">${['🌟', '💪', '🔥', '💡'][i] || '⭐'}</div>
               <div class="report-trait__name">${t.name}</div>
               <div class="report-trait__value">${t.value}%</div>
             </div>
@@ -127,38 +127,78 @@ export async function renderReport(container, params) {
       <!-- Areas to Improve -->
       <div class="report-section">
         <h3 class="report-section__title">🌱 Areas to Improve</h3>
-        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:12px;">
+        <div class="report-list">
           ${result.areasToImprove.map(area => `
-            <li style="background:var(--white); padding:16px; border-radius:var(--radius-md); box-shadow:var(--shadow-sm); border-left:4px solid var(--secondary); font-weight:500;">
-              ↳ ${area}
-            </li>
+            <div class="report-list-item report-list-item--warning">
+              <span class="report-list-item__icon">↳</span>
+              <span class="report-list-item__text">${area}</span>
+            </div>
           `).join('')}
-        </ul>
+        </div>
       </div>
 
       <!-- Skill Development Plan -->
       <div class="report-section">
         <h3 class="report-section__title">📈 Skill Development Plan</h3>
-        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:12px;">
+        <div class="report-list">
           ${result.skillPlan.map(plan => `
-            <li style="background:var(--white); padding:16px; border-radius:var(--radius-md); box-shadow:var(--shadow-sm); display:flex; gap:12px; align-items:center;">
-              <span style="background:var(--primary-lightest); color:var(--primary); padding:8px; border-radius:50%; width:32px; height:32px; display:inline-flex; align-items:center; justify-content:center;">✓</span>
-              <span style="font-weight:500; color:var(--gray-800);">${plan}</span>
-            </li>
+            <div class="report-list-item report-list-item--success">
+              <span class="report-list-item__icon">✓</span>
+              <span class="report-list-item__text">${plan}</span>
+            </div>
           `).join('')}
-        </ul>
+        </div>
+      </div>
+
+      <!-- Growth & Learning (New Section) -->
+      <div class="report-section">
+        <h3 class="report-section__title">🧠 Growth Dimensions</h3>
+        <div class="report-grid">
+          <div class="report-card report-card--purple">
+            <div class="report-card__label">Learning Style</div>
+            <div class="report-card__content">${result.learningStyle || 'Visual & Experiential'}</div>
+          </div>
+          <div class="report-card report-card--blue">
+            <div class="report-card__label">Ideal Environment</div>
+            <div class="report-card__content">${result.workEnvironment || 'Fast-paced & Dynamic'}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hidden Talent -->
+      ${result.hiddenTalent ? `
+      <div class="report-section">
+        <div class="report-talent">
+          <div class="report-talent__label">✨ Hidden Talent Unlocked</div>
+          <h3 class="report-talent__title">${result.hiddenTalent}</h3>
+          <p class="report-talent__desc">${result.hiddenTalentDesc}</p>
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Actionable Advice -->
+      <div class="report-section">
+        <h3 class="report-section__title">🚀 Success Strategy</h3>
+        <div class="report-advice">
+          <div class="report-advice__icon">💡</div>
+          <div class="report-advice__content">
+            <p class="report-advice__text">${result.actionableAdvice || 'Focus on consistent practice.'}</p>
+          </div>
+        </div>
       </div>
 
       <!-- Career Suggestions -->
       <div class="report-section">
-        <h3 class="report-section__title">🚀 Career Suggestions</h3>
+        <h3 class="report-section__title">🎯 Tailored Career Paths</h3>
+        <p class="report-section__subtitle">Based on Indian Industry Standards 🇮🇳</p>
         <div class="report-careers">
           ${result.careers.map(c => `
             <div class="report-career">
               <div class="report-career__icon report-career__icon--primary">${c.icon}</div>
               <div class="report-career__info">
                 <div class="report-career__title">${c.title}</div>
-                <div class="report-career__match">Match based on your profile</div>
+                <div class="report-career__match">High Match Score</div>
+                <div class="report-career__context">${c.context || ''}</div>
               </div>
               <div class="report-career__pct">${c.match}%</div>
             </div>

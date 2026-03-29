@@ -17,7 +17,9 @@ export default async function handler(req, res) {
     const {
       userId, setIndex, totalScore, totalCorrect, totalQuestions,
       categoryScores, personalityType, personalityEmoji, personalityDesc,
-      topStrengths, areasToImprove, skillPlan, careers, hiddenTalent, hiddenTalentDesc, answers,
+      topStrengths, areasToImprove, skillPlan, careers, 
+      learningStyle, workEnvironment, actionableAdvice,
+      hiddenTalent, hiddenTalentDesc, answers,
     } = req.body;
 
     if (!userId) {
@@ -39,6 +41,9 @@ export default async function handler(req, res) {
         areasToImprove: JSON.stringify(areasToImprove || []),
         skillPlan: JSON.stringify(skillPlan || []),
         careers: JSON.stringify(careers || []),
+        learningStyle: learningStyle || '',
+        workEnvironment: workEnvironment || '',
+        actionableAdvice: actionableAdvice || '',
         hiddenTalent: hiddenTalent || '',
         hiddenTalentDesc: hiddenTalentDesc || '',
         answers: JSON.stringify(answers || []),
