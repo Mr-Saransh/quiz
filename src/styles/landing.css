@@ -1,0 +1,83 @@
+/* ===== Landing Page ===== */
+
+.landing {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background: var(--primary-gradient);
+}
+
+.landing__topbar {
+  position: relative;
+  z-index: 10;
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing__logo {
+  height: 40px;
+  object-fit: contain;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Decorative background elements */
+.landing__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.landing__bg-shape {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.landing__bg-shape--1 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
+  top: -80px;
+  right: -60px;
+  animation: float 6s var(--ease-in-out) infinite;
+}
+
+.landing__bg-shape--2 {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1), transparent);
+  bottom: 120px;
+  left: -60px;
+  animation: float 8s var(--ease-in-out) infinite 1s;
+}
+
+/* Hero content */
+.landing__content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6);
+  text-align: center;
+}
+
+.landing__mascot {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  animation: float 4s var(--ease-in-out) infinite;
+}
+
+.landing__mascot img {
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
+}
+

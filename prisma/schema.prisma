@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name         String?
+  ageClass     String?
+  city         String?
+  address      String?
+  profileImage String?
+  contact      String   @unique
+  authMode  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  results QuizResult[]
+}
+
+
+
+model QuizResult {
+  id               String   @id @default(cuid())
+  userId           String
+  setIndex         Int
+  totalScore       Int
+  totalCorrect     Int
+  totalQuestions   Int
+  categoryScores   String
+  personalityType  String
+  personalityEmoji String
+  personalityDesc  String
+  topStrengths     String   @default("[]") // JSON
+  areasToImprove   String   @default("[]") // JSON
+  skillPlan        String   @default("[]") // JSON
+  careers          String                  // JSON
+  hiddenTalent     String
+  hiddenTalentDesc String
+  answers          String
+  createdAt        DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
