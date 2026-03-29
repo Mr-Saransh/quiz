@@ -17,15 +17,18 @@ export function getCurrentRoute() {
 }
 
 function matchRoute(hash) {
+  // Strip query string for matching purposes
+  const baseHash = hash.split('?')[0];
+
   // Try exact match first
-  if (routes[hash]) {
-    return { handler: routes[hash], params: {} };
+  if (routes[baseHash]) {
+    return { handler: routes[baseHash], params: {} };
   }
   
   // Try parameterized routes
   for (const [pattern, handler] of Object.entries(routes)) {
     const patternParts = pattern.split('/');
-    const hashParts = hash.split('/');
+    const hashParts = baseHash.split('/');
     
     if (patternParts.length !== hashParts.length) continue;
     
