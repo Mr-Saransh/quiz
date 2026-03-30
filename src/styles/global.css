@@ -88,13 +88,18 @@ input, textarea, select {
 /* ===== Utility Classes ===== */
 .page-container {
   width: 100%;
-  max-width: var(--max-w-mobile);
   margin: 0 auto;
   min-height: 100dvh;
   position: relative;
   background: var(--cream);
-  overflow: hidden;
-  padding-bottom: 20px; /* Reduced from 80px, the nav now floats or hides */
+  overflow-x: hidden;
+  padding-bottom: 20px;
+}
+
+@media (max-width: 767px) {
+  .page-container {
+    max-width: var(--max-w-mobile);
+  }
 }
 
 .section-padding {
@@ -292,16 +297,14 @@ input, textarea, select {
 /* Responsive desktop wrapper */
 @media (min-width: 768px) {
   body {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    background: linear-gradient(135deg, #FFF0E5 0%, #F0FFF4 50%, #FFF8F0 100%);
+    display: block;
+    background-color: var(--spark-cream);
   }
 
   #app {
-    max-width: var(--max-w-mobile);
+    max-width: none;
     min-height: 100dvh;
-    box-shadow: var(--shadow-2xl);
+    box-shadow: none;
     border-radius: 0;
     position: relative;
   }

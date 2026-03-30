@@ -118,6 +118,16 @@
   padding: 0 var(--space-6);
 }
 
+@media (min-width: 768px) {
+  .dash-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: var(--space-6);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
 .category-card {
   background: var(--primary-gradient);
   border-radius: var(--radius-xl);

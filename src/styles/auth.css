@@ -45,10 +45,17 @@
   background: var(--white);
   border-radius: var(--radius-2xl);
   padding: var(--space-8);
-  box-shadow: var(--shadow-xl);
+  box-shadow: 0 32px 64px rgba(0,0,0,0.12);
   position: relative;
   z-index: 2;
   animation: scaleIn var(--duration-slow) var(--ease-spring);
+}
+
+@media (min-width: 768px) {
+  .auth-card {
+    max-width: 450px;
+    padding: var(--space-12);
+  }
 }
 
 .auth-card__logo {
