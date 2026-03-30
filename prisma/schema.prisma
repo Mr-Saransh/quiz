@@ -1,24 +1,64 @@
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id           String       @id @default(cuid())
-  name         String?
-  ageClass     String?
-  city         String?
-  address      String?
-  profileImage String?
-  contact      String       @unique
-  authMode     String
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  results      QuizResult[]
+  id               String       @id @default(cuid())
+  name             String?
+  ageClass         String?
+  city             String?
+  address          String?
+  profileImage     String?
+  contact          String       @unique
+  authMode         String
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  results          QuizResult[]
+  enrollments      Enrollment[]
+  notifications    Notification[]
+  
+  // Dynamic profile theme fields
+  personalityType  String?
+  personalityEmoji String?
+  themeColor       String?
+  personalityDesc  String?
+  primaryTrait     String?
+}
+
+model Competition {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  formLink    String
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  enrollments Enrollment[]
+}
+
+model Enrollment {
+  id            String      @id @default(cuid())
+  userId        String
+  competitionId String
+  createdAt     DateTime    @default(now())
+  user          User        @relation(fields: [userId], references: [id])
+  competition   Competition @relation(fields: [competitionId], references: [id])
+
+  @@unique([userId, competitionId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model QuizResult {

@@ -67,6 +67,11 @@ router.post('/register-basic', async (req, res) => {
         contact: user.contact,
         authMode: user.authMode,
         createdAt: user.createdAt,
+        personalityType: user.personalityType,
+        personalityEmoji: user.personalityEmoji,
+        themeColor: user.themeColor,
+        personalityDesc: user.personalityDesc,
+        primaryTrait: user.primaryTrait,
       },
     });
   } catch (error) {
@@ -110,6 +115,11 @@ router.put('/set-profile', async (req, res) => {
         contact: user.contact,
         authMode: user.authMode,
         createdAt: user.createdAt,
+        personalityType: user.personalityType,
+        personalityEmoji: user.personalityEmoji,
+        themeColor: user.themeColor,
+        personalityDesc: user.personalityDesc,
+        primaryTrait: user.primaryTrait,
       },
     });
   } catch (error) {
@@ -138,6 +148,11 @@ router.get('/user/:id', async (req, res) => {
         contact: true,
         authMode: true,
         createdAt: true,
+        personalityType: true,
+        personalityEmoji: true,
+        themeColor: true,
+        personalityDesc: true,
+        primaryTrait: true,
       },
     });
 
@@ -149,6 +164,21 @@ router.get('/user/:id', async (req, res) => {
   } catch (error) {
     console.error('Get user error:', error);
     res.status(500).json({ error: 'Failed to get user' });
+  }
+});
+
+// Get user notifications
+router.get('/notifications/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const notifications = await prisma.notification.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' }
+    });
+    res.json({ notifications });
+  } catch (error) {
+    console.error('Notifications fetch error:', error);
+    res.status(500).json({ error: 'Failed to get notifications' });
   }
 });
 
