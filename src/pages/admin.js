@@ -8,12 +8,12 @@ export async function renderAdmin(container) {
     return; 
   }
 
-  // Fetch existing competitions for management
-  let competitions = [];
+  // Fetch existing events for management
+  let events = [];
   try {
     const res = await fetch('/api/competitions');
     const data = await res.json();
-    competitions = data.competitions || [];
+    events = data.competitions || [];
   } catch (e) {
     console.error('Failed to fetch competitions for management', e);
   }
@@ -35,7 +35,7 @@ export async function renderAdmin(container) {
           <div class="glass-card" style="padding: 24px; border-radius: 24px; text-align: center; border: 1px solid var(--gray-100); background: white;">
             <div style="font-size: 32px; margin-bottom: 12px;">📊</div>
             <div style="font-size: 11px; font-weight: 800; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px;">Engagement</div>
-            <div style="font-family: var(--font-heading); font-weight: 800; font-size: 24px; color: var(--gray-900);">${competitions.length} active</div>
+            <div style="font-family: var(--font-heading); font-weight: 800; font-size: 24px; color: var(--gray-900);">${events.length} active</div>
             <button id="admin-export-btn" style="margin-top: 16px; background: #059669; color: white; border: none; padding: 10px 16px; border-radius: 12px; font-weight: 700; font-size: 12px; width: 100%; cursor: pointer;">📥 Export CSV</button>
           </div>
           <div class="glass-card" style="padding: 24px; border-radius: 24px; text-align: center; border: 1px solid var(--gray-100); background: white;">
@@ -46,17 +46,17 @@ export async function renderAdmin(container) {
           </div>
         </div>
 
-        <!-- ACTIVE COMPETITIONS MANAGEMENT -->
+        <!-- ACTIVE EVENTS MANAGEMENT -->
         <div style="background: white; border-radius: 28px; padding: 32px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-md);">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
-            <h2 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--gray-900);">Published Challenges</h2>
+            <h2 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--gray-900);">Published Events</h2>
             <span style="font-size: 12px; font-weight: 700; color: var(--primary); background: var(--primary-lightest); padding: 4px 12px; border-radius: 100px;">Control Panel</span>
           </div>
           
           <div style="display: grid; gap: 16px;">
-            ${competitions.length === 0 ? `
-              <p style="text-align: center; padding: 20px; color: var(--gray-400); font-style: italic;">No active competitions found.</p>
-            ` : competitions.map(comp => `
+            ${events.length === 0 ? `
+              <p style="text-align: center; padding: 20px; color: var(--gray-400); font-style: italic;">No active events found.</p>
+            ` : events.map(comp => `
               <div class="comp-admin-card" style="padding: 20px; border: 1px solid var(--gray-100); border-radius: 20px; background: var(--gray-50);">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
                   <div>
@@ -73,14 +73,14 @@ export async function renderAdmin(container) {
           </div>
         </div>
 
-        <!-- ADD COMPETITION FORM -->
+        <!-- ADD EVENT FORM -->
         <div id="publish-section" style="background: white; border-radius: 28px; padding: 32px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-md);">
-          <h2 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--gray-900); margin-bottom: 24px;">🚀 New Ecosystem Entry</h2>
+          <h2 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--gray-900); margin-bottom: 24px;">🚀 New Events Entry</h2>
           
           <div style="display: grid; gap: 16px;">
             <div class="auth-input-group">
-              <label style="font-weight: 800; font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;">Challenge Title</label>
-              <input type="text" id="comp-title" class="input-field" placeholder="E.g. Math Wizards 2024" style="background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 16px; padding: 18px; width: 100%; font-weight: 600;"/>
+              <label style="font-weight: 800; font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;">Event Title</label>
+              <input type="text" id="comp-title" class="input-field" placeholder="E.g. Tech Meetup 2024" style="background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 16px; padding: 18px; width: 100%; font-weight: 600;"/>
             </div>
 
             <div class="auth-input-group">

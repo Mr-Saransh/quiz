@@ -1,7 +1,7 @@
 import { navigate } from '../router.js';
 import { isLoggedIn, getUser } from '../utils/storage.js';
 
-export async function renderCompetitions(container) {
+export async function renderEvents(container) {
   if (!isLoggedIn()) { navigate('/auth'); return; }
 
   const user = getUser();
@@ -18,7 +18,7 @@ export async function renderCompetitions(container) {
     <div class="competitions-page page-container paper-bg" style="min-height: 100dvh; background: var(--off-white);">
       <div class="comp-header" style="padding: 40px 24px 20px;">
         <div style="font-size: 11px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Active Ecosystem</div>
-        <h1 style="font-family: var(--font-heading); font-size: 32px; font-weight: 900; color: var(--gray-900); line-height: 1.1;">Elite <br>Challenges</h1>
+        <h1 style="font-family: var(--font-heading); font-size: 32px; font-weight: 900; color: var(--gray-900); line-height: 1.1;">Elite <br>Events</h1>
         <p style="color: var(--gray-500); margin-top: 12px; font-weight: 500; font-size: 15px;">Participate in world-class evaluations and win exclusive digital identity rewards.</p>
       </div>
 
@@ -26,7 +26,7 @@ export async function renderCompetitions(container) {
         ${competitions.length === 0 ? `
           <div style="text-align: center; padding: 60px 20px; background: var(--white); border-radius: 32px; border: 2px dashed var(--gray-100); margin-top: 40px;">
             <div style="font-size: 56px; margin-bottom: 20px;">🔍</div>
-            <p style="color: var(--gray-500); font-weight: 800; font-size: 18px;">No active challenges found.</p>
+            <p style="color: var(--gray-500); font-weight: 800; font-size: 18px;">No active events found.</p>
             <p style="font-size: 13px; color: var(--gray-400); margin-top: 8px; font-weight: 500;">Our curators are currently preparing new evaluations. Check back soon!</p>
           </div>
         ` : competitions.map(comp => `
@@ -45,7 +45,7 @@ export async function renderCompetitions(container) {
                       data-id="${comp.id}" 
                       data-link="${comp.formLink}" 
                       style="border-radius: 20px; padding: 20px; font-weight: 800; font-size: 16px; box-shadow: 0 10px 20px rgba(79, 70, 229, 0.15);">
-                Enroll and Reveal Challenge →
+                Enroll and Reveal Event →
               </button>
             </div>
           </div>

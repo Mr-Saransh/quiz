@@ -22,7 +22,7 @@ import { renderProfile } from './pages/profile.js';
 import { renderAlerts } from './pages/alerts.js';
 import { renderAdmin } from './pages/admin.js';
 import { renderAdminLogin } from './pages/admin-login.js';
-import { renderCompetitions } from './pages/competitions.js';
+import { renderEvents } from './pages/events.js';
 
 // Initialize storage (default leaderboard)
 initStorage();
@@ -38,7 +38,7 @@ registerRoute('/profile', renderProfile);
 registerRoute('/alerts', renderAlerts);
 registerRoute('/admin', renderAdmin);
 registerRoute('/admin-login', renderAdminLogin);
-registerRoute('/competitions', renderCompetitions);
+registerRoute('/events', renderEvents);
 
 // Start router
 initRouter();

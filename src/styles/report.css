@@ -1,612 +1,485 @@
-/* ===== Report Page ===== */
+/* ===== Premium Report Page ===== */
 
 .report-page {
   min-height: 100dvh;
-  background: var(--cream);
-  padding-bottom: var(--space-10);
+  background: #FEFDF9; /* Creamy off-white */
+  padding-bottom: 140px;
+  color: #1E293B;
+  font-family: 'Inter', sans-serif;
 }
 
-/* Report header */
+/* Header Section */
 .report-header {
-  background: var(--primary-gradient);
-  padding: var(--space-12) var(--space-6);
-  padding-top: var(--space-16);
-  text-align: center;
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #C026D3 100%);
+  padding: 48px 24px 80px;
   position: relative;
   overflow: hidden;
-  border-radius: 0 0 var(--radius-3xl) var(--radius-3xl);
-}
-@media (min-width: 1024px) {
-  .report-header {
-    padding: 100px 60px;
-    border-radius: 0 0 80px 80px;
-  }
-}
-
-.report-header__bg-circle {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-}
-
-.report-header__bg-circle--1 {
-  width: 200px;
-  height: 200px;
-  top: -50px;
-  right: -50px;
-}
-
-.report-header__bg-circle--2 {
-  width: 150px;
-  height: 150px;
-  bottom: -40px;
-  left: -30px;
-}
-
-.report-header__back {
-  position: absolute;
-  top: var(--space-4);
-  left: var(--space-4);
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-full);
-  background: rgba(255,255,255,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--white);
-  font-size: 18px;
-  backdrop-filter: blur(4px);
-}
-
-.report-header__share {
-  position: absolute;
-  top: var(--space-4);
-  right: var(--space-4);
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-full);
-  background: rgba(255,255,255,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--white);
-  font-size: 18px;
-  backdrop-filter: blur(4px);
+  text-align: center;
+  border-radius: 0 0 32px 32px;
 }
 
 .report-header__badge {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  border-radius: 100px;
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  background: rgba(255,255,255,0.2);
-  padding: var(--space-1) var(--space-4);
-  border-radius: var(--radius-full);
-  color: var(--white);
-  font-size: var(--text-xs);
-  font-weight: 600;
-  margin-bottom: var(--space-4);
-  backdrop-filter: blur(4px);
+  gap: 8px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.report-header__badge span {
+  font-size: 10px;
+  font-weight: 800;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
 .report-header__title {
-  font-family: var(--font-heading);
-  font-weight: 800;
-  font-size: var(--text-3xl);
-  color: var(--white);
-  margin-bottom: var(--space-2);
-}
-
-.report-header__name {
-  color: rgba(255,255,255,0.85);
-  font-size: var(--text-base);
-  margin-bottom: var(--space-6);
-}
-
-/* Score display */
-.report-score {
-  display: flex;
-  justify-content: center;
-  margin-bottom: var(--space-4);
-}
-
-.report-score-circle {
-  width: 140px;
-  height: 140px;
-  background: var(--white);
-  border-radius: var(--radius-full);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-  position: relative;
-  transition: transform 0.3s ease;
-}
-@media (min-width: 1024px) {
-  .report-score-circle {
-    width: 200px;
-    height: 200px;
-  }
-}
-
-.report-score-circle__value {
-  font-family: var(--font-heading);
+  color: white;
+  font-family: 'Outfit', sans-serif;
+  font-size: 32px;
   font-weight: 900;
-  font-size: var(--text-4xl);
-  color: var(--primary);
-  line-height: 1;
+  margin-bottom: 4px;
+  letter-spacing: -0.5px;
 }
 
-.report-score-circle__max {
-  font-size: var(--text-sm);
-  color: var(--gray-400);
+.report-header__subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
   font-weight: 600;
+  margin-bottom: 24px;
 }
 
-.report-score-circle__ring {
-  position: absolute;
-  inset: -6px;
-  border-radius: var(--radius-full);
+.report-status-badge {
+  background: white;
+  padding: 10px 20px;
+  border-radius: 100px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 2;
 }
 
-.report-header__personality {
-  color: var(--white);
-  font-family: var(--font-heading);
+.report-status-badge span {
+  font-size: 13px;
   font-weight: 700;
-  font-size: var(--text-lg);
-  margin-top: var(--space-3);
+  color: #1E293B;
 }
 
-.report-header__personality-label {
-  color: rgba(255,255,255,0.7);
-  font-size: var(--text-xs);
-  margin-bottom: var(--space-1);
+/* Insight Box */
+.report-insight-card {
+  margin: -40px 24px 32px;
+  background: white;
+  padding: 24px;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  border: 1px solid #F1F5F9;
+  position: relative;
+  z-index: 10;
 }
 
-/* Section */
+.report-insight-card p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #475569;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Standard Section Styling */
 .report-section {
-  padding: var(--space-6);
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
+  padding: 0 24px;
+  margin-bottom: 48px;
 }
-@media (min-width: 1024px) {
-  .report-section {
-    padding: var(--space-10) var(--space-8);
-  }
+
+.report-section__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.report-section__icon {
+  font-size: 20px;
 }
 
 .report-section__title {
-  font-family: var(--font-heading);
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
   font-weight: 800;
-  font-size: var(--text-xl);
-  color: var(--gray-900);
-  margin-bottom: var(--space-4);
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
+  color: #1E293B;
 }
 
-/* Radar chart */
-.report-chart {
-  background: var(--white);
-  border-radius: var(--radius-xl);
-  padding: var(--space-5);
-  box-shadow: var(--shadow-md);
-  margin-bottom: var(--space-4);
+/* Radar Chart Container */
+.report-chart-container {
+  background: white;
+  padding: 20px;
+  border-radius: 28px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+  margin-bottom: 24px;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.report-chart canvas {
-  width: 100% !important;
-  height: 250px !important;
-}
-
-/* Category breakdown */
-.report-categories {
+/* Category Breakdown */
+.category-breakdown {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-}
-@media (min-width: 768px) {
-  .report-categories {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
-  }
-}
-@media (min-width: 1200px) {
-  .report-categories {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-6);
-  }
+  gap: 20px;
 }
 
-.report-category-item {
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  box-shadow: var(--shadow-sm);
-}
-
-.report-category-item__header {
+.category-item {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.category-item__meta {
+  display: flex;
   justify-content: space-between;
-  margin-bottom: var(--space-2);
+  align-items: center;
 }
 
-.report-category-item__name {
+.category-item__label {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: var(--text-sm);
-  color: var(--gray-800);
-}
-
-.report-category-item__score {
-  font-family: var(--font-heading);
+  gap: 8px;
   font-weight: 700;
-  font-size: var(--text-sm);
-  color: var(--primary);
+  font-size: 14px;
+  color: #334155;
 }
 
-.report-category-item__bar {
+.category-item__value {
+  font-weight: 800;
+  font-size: 14px;
+  color: #6366F1;
+}
+
+.category-item__progress {
   height: 8px;
-  background: var(--gray-100);
-  border-radius: var(--radius-full);
+  background: #F1F5F9;
+  border-radius: 100px;
   overflow: hidden;
 }
 
-.report-category-item__fill {
+.category-item__fill {
   height: 100%;
-  border-radius: var(--radius-full);
-  transition: width 1.5s var(--ease-out);
-  animation: progressFill 1.5s var(--ease-out);
+  border-radius: 100px;
+  transition: width 1s ease-out;
 }
 
-.report-category-item__fill--primary { background: var(--primary-gradient); }
-.report-category-item__fill--secondary { background: linear-gradient(90deg, var(--secondary), var(--lime)); }
-.report-category-item__fill--blue { background: linear-gradient(90deg, #4A90D9, #6CB4F5); }
-.report-category-item__fill--purple { background: linear-gradient(90deg, #8B5CF6, #A78BFA); }
-.report-category-item__fill--gold { background: linear-gradient(90deg, #E6A817, #FFD54F); }
-
-/* Personality traits */
-.report-traits {
+/* Strengths Grid */
+.strengths-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
+  gap: 16px;
 }
 
-.report-trait {
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
+.strength-card {
+  background: white;
+  padding: 24px 16px;
+  border-radius: 20px;
   text-align: center;
-  box-shadow: var(--shadow-sm);
-  animation: fadeInUp var(--duration-slow) var(--ease-out);
-  animation-fill-mode: both;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  border: 1px solid #F8FAFC;
 }
 
-.report-trait:nth-child(1) { animation-delay: 0ms; }
-.report-trait:nth-child(2) { animation-delay: 100ms; }
-.report-trait:nth-child(3) { animation-delay: 200ms; }
-.report-trait:nth-child(4) { animation-delay: 300ms; }
-
-.report-trait__emoji {
+.strength-card__icon {
   font-size: 28px;
-  margin-bottom: var(--space-2);
+  margin-bottom: 12px;
 }
 
-.report-trait__name {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: var(--text-sm);
-  color: var(--gray-800);
-  margin-bottom: var(--space-1);
-}
-
-.report-trait__value {
-  font-size: var(--text-xs);
-  color: var(--gray-500);
-}
-
-/* Career suggestions */
-.report-careers {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-@media (min-width: 768px) {
-  .report-careers {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
-  }
-}
-@media (min-width: 1200px) {
-  .report-careers {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.report-career {
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  box-shadow: var(--shadow-sm);
-}
-
-.report-career__icon {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-lg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  flex-shrink: 0;
-}
-
-.report-career__icon--primary { background: var(--primary-lightest); }
-.report-career__icon--secondary { background: rgba(123,198,126,0.15); }
-.report-career__icon--blue { background: var(--blue-light); }
-
-.report-career__info {
-  flex: 1;
-}
-
-.report-career__title {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: var(--text-base);
-  color: var(--gray-800);
-}
-
-.report-career__match {
-  font-size: var(--text-xs);
-  color: var(--gray-500);
-}
-
-.report-career__pct {
-  font-family: var(--font-heading);
+.strength-card__name {
   font-weight: 800;
-  font-size: var(--text-lg);
-  color: var(--secondary-dark);
-}
-
-/* Shared List Styles */
-.report-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.report-list-item {
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  box-shadow: var(--shadow-sm);
-  border-left: 4px solid transparent;
-}
-
-.report-list-item--warning {
-  border-left-color: var(--secondary);
-}
-
-.report-list-item--success {
-  border-left-color: var(--lime);
-}
-
-.report-list-item__icon {
-  width: 28px;
-  height: 28px;
-  background: var(--gray-50);
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  color: var(--gray-600);
-  flex-shrink: 0;
   font-size: 14px;
+  color: #1E293B;
+  margin-bottom: 4px;
 }
 
-.report-list-item--success .report-list-item__icon {
-  background: var(--primary-lightest);
-  color: var(--primary);
+.strength-card__value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #94A3B8;
 }
 
-.report-list-item__text {
+/* Action Lists */
+.action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-item {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #F1F5F9;
+}
+
+.action-item__bullet {
+  color: #FDA4AF;
+  font-size: 18px;
+}
+
+.action-item__text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* Skill Plan */
+.skill-plan-item {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #F1F5F9;
+}
+
+.skill-plan-item__check {
+  width: 22px;
+  height: 22px;
+  background: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #22C55E;
+  font-size: 12px;
+}
+
+.skill-plan-item__text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* Growth Dimensions */
+.growth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.growth-card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid #F1F5F9;
+}
+
+.growth-card__title {
+  font-weight: 800;
+  font-size: 13px;
+  color: #1E293B;
+  margin-bottom: 8px;
+}
+
+.growth-card__text {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #64748B;
   font-weight: 500;
-  color: var(--gray-800);
-  font-size: var(--text-sm);
 }
 
-/* Hidden talent card */
-.report-talent {
-  background: linear-gradient(135deg, #1e1e2f 0%, #0d0d1a 100%);
-  border-radius: var(--radius-2xl);
-  padding: var(--space-8) var(--space-6);
+/* EI High Impact Card */
+.ei-card {
+  background: #0F172A;
+  padding: 32px 24px;
+  border-radius: 32px;
   text-align: center;
+  color: white;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-  border: 1px solid rgba(255,215,0,0.2);
+  margin-bottom: 48px;
 }
 
-.report-talent::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,215,0,0.05) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.report-talent__label {
-  font-size: var(--text-xs);
-  color: var(--gold);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  margin-bottom: var(--space-4);
-}
-
-.report-talent__title {
-  font-family: var(--font-heading);
+.ei-card__badge {
+  color: #FACC15;
+  font-size: 11px;
   font-weight: 800;
-  font-size: var(--text-2xl);
-  color: var(--white);
-  margin-bottom: var(--space-3);
-  background: linear-gradient(90deg, #fff, #ffd700);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.ei-card__title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  background: linear-gradient(90deg, #FACC15, #FDE68A);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.report-talent__desc {
-  font-size: var(--text-sm);
-  color: rgba(255,255,255,0.7);
-  line-height: var(--leading-relaxed);
-  max-width: 280px;
-  margin: 0 auto;
+.ei-card__text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
 }
 
-/* CTAs */
-.report-ctas {
-  padding: var(--space-6);
+/* Success Strategy */
+.strategy-card {
+  background: #FFFBEB;
+  padding: 20px 24px;
+  border-radius: 20px;
   display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  max-width: 600px;
-  margin: 0 auto;
+  gap: 16px;
+  align-items: center;
+  border: 1px solid #FEF3C7;
+  margin-bottom: 48px;
 }
 
-/* Share buttons */
-.report-share-row {
-  display: flex;
-  gap: var(--space-3);
-  justify-content: center;
-  margin-top: var(--space-3);
-}
-
-.report-share-btn {
+.strategy-icon {
   width: 44px;
   height: 44px;
-  border-radius: var(--radius-full);
+  background: white;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  background: var(--gray-100);
-  color: var(--gray-600);
-  transition: all var(--duration-fast);
+  font-size: 24px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.03);
 }
 
-.report-share-btn:hover {
-  background: var(--primary-lightest);
-  color: var(--primary);
-  transform: scale(1.1);
+.strategy-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #92400E;
+  font-weight: 600;
 }
 
-.report-section__subtitle {
-  font-size: var(--text-xs);
-  color: var(--gray-500);
-  margin-top: calc(var(--space-2) * -1);
-  margin-bottom: var(--space-4);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* Growth dimensions grid */
-.report-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
-}
-
-.report-card {
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  box-shadow: var(--shadow-sm);
+/* Career Guide */
+.career-guide {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: 16px;
 }
 
-.report-card__label {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--gray-400);
-}
-
-.report-card__content {
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--gray-800);
-  line-height: 1.4;
-}
-
-.report-card--purple { border-top: 3px solid var(--purple-light); }
-.report-card--blue { border-top: 3px solid var(--blue-light); }
-
-/* Advice section */
-.report-advice {
-  background: var(--white);
-  border-radius: var(--radius-xl);
-  padding: var(--space-4);
+.career-card {
+  background: white;
+  padding: 20px;
+  border-radius: 24px;
   display: flex;
-  gap: var(--space-4);
   align-items: center;
-  box-shadow: var(--shadow-sm);
-  border-right: 4px solid var(--gold);
+  gap: 16px;
+  border: 1px solid #F1F5F9;
+  transition: transform 0.2s;
 }
 
-.report-advice__icon {
-  font-size: 24px;
-  background: var(--primary-lightest);
-  width: 48px;
-  height: 48px;
+.career-card:active {
+  transform: scale(0.98);
+}
+
+.career-card__icon {
+  width: 56px;
+  height: 56px;
+  background: #F8FAFC;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-lg);
-  flex-shrink: 0;
+  font-size: 28px;
+  border: 1px solid #F1F5F9;
 }
 
-.report-advice__text {
-  font-size: var(--text-sm);
-  color: var(--gray-600);
-  line-height: var(--leading-relaxed);
-  font-style: italic;
+.career-card__content {
+  flex: 1;
 }
 
-.report-career__context {
-  font-size: 11px;
-  color: var(--primary);
-  opacity: 0.8;
-  margin-top: 4px;
+.career-card__title {
+  font-weight: 800;
+  font-size: 15px;
+  color: #1E293B;
+  margin-bottom: 4px;
+}
+
+.career-card__context {
+  font-size: 12px;
+  color: #64748B;
   font-weight: 500;
 }
 
-/* Confetti canvas */
-.confetti-canvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: var(--z-toast);
+.career-card__match {
+  text-align: right;
 }
+
+.career-card__pct {
+  display: block;
+  font-weight: 900;
+  font-size: 16px;
+  color: #F43F5E;
+}
+
+/* Bottom CTA */
+.report-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 24px 32px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  z-index: 100;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.report-footer__actions {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 12px;
+}
+
+.share-btn {
+  background: #4F46E5;
+  color: white;
+  padding: 14px;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 14px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.2);
+  cursor: pointer;
+}
+
+.share-btn--secondary {
+  background: #F1F5F9;
+  color: #475569;
+  box-shadow: none;
+  border: 1px solid #E2E8F0;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
