@@ -11,6 +11,17 @@ const adapter = new PrismaPg(pool);
 const options = { adapter };
 
 if (process.env.NODE_ENV === 'production') {
+  console.log('[PRISMA] Initializing in production...')
+  if (!process.env.DATABASE_URL) {
+    console.error('[PRISMA] CRITICAL ERROR: DATABASE_URL is missing in environment!');
+  } else {
+    try {
+      const url = new URL(process.env.DATABASE_URL);
+      console.log(`[PRISMA] Database Host: ${url.host}`);
+    } catch (e) {
+      console.error('[PRISMA] Invalid DATABASE_URL format.');
+    }
+  }
   prisma = new PrismaClient(options);
 } else {
   if (!globalThis._prisma) {
