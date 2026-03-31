@@ -50,6 +50,12 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Quiz API server running at http://localhost:${PORT}`);
-});
+// Handle running directly (local dev)
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Quiz API server running at http://localhost:${PORT}`);
+  });
+}
+
+// Export for Vercel
+export default app;
