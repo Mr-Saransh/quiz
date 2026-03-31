@@ -7,6 +7,7 @@ import './styles/dashboard.css';
 import './styles/quiz.css';
 import './styles/report.css';
 import './styles/leaderboard.css';
+import './styles/profile.css';
 
 import { registerRoute, initRouter } from './router.js';
 import { initStorage } from './utils/storage.js';

@@ -116,4 +116,10 @@
   /* Max widths */
   --max-w-mobile: 430px;
   --max-w-content: 800px;
+  --max-w-wide: 1200px;
+
+  /* Breakpoints */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
 }

@@ -25,57 +25,57 @@ export async function renderProfile(container) {
   const emoji = user.personalityEmoji || '🧭';
   
   container.innerHTML = `
-    <div class="profile-page animate-fadeIn" style="background: var(--off-white); min-height: 100dvh; padding-bottom: 120px; font-family: var(--font-body); overflow-x: hidden;">
+    <div class="profile-page animate-fadeIn">
       
       <!-- Premium Hero Section -->
-      <div class="profile-hero" style="background: linear-gradient(160deg, #0F172A 0%, #1E1B4B 100%); padding: 60px 24px 100px; position: relative; overflow: hidden; border-radius: 0 0 50px 50px; box-shadow: var(--shadow-2xl);">
+      <div class="profile-hero">
         <div class="deco-blob deco-blob--primary" style="top: -100px; right: -50px; width: 350px; height: 350px; opacity: 0.2;"></div>
         <div class="deco-blob deco-blob--secondary" style="bottom: -50px; left: -50px; width: 250px; height: 250px; opacity: 0.1;"></div>
         
-        <div style="max-width: var(--max-w-content); margin: 0 auto; position: relative; z-index: 10;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; color: white;">
-            <button id="profile-back" class="glass-card" style="width: 44px; height: 44px; border-radius: 14px; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);">
+        <div class="profile-hero__content">
+          <div class="profile-hero__header">
+            <button id="profile-back" class="glass-card flex-center" style="width: 44px; height: 44px; border-radius: 14px; color: white; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);">
                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
             </button>
             <span style="font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; letter-spacing: 3px; font-size: 11px; opacity: 0.6;">Digital Persona Hub</span>
             <div style="width: 44px;"></div>
           </div>
 
-          <div style="display: flex; flex-direction: column; align-items: center; text-align: center;" class="animate-fadeInUp">
-            <div style="position: relative; margin-bottom: 32px;">
-              <div style="position: absolute; inset: -20px; background: radial-gradient(circle, ${theme}44 0%, transparent 70%); filter: blur(25px); animate: pulse 3s infinite;"></div>
+          <div class="flex flex-col items-center text-center animate-fadeInUp">
+            <div class="avatar-wrapper">
+              <div style="position: absolute; inset: -20px; background: radial-gradient(circle, ${theme}44 0%, transparent 70%); filter: blur(25px); animation: pulse 3s infinite;"></div>
               
-              <div id="avatar-trigger" style="width: 160px; height: 160px; border-radius: 56px; overflow: hidden; background: white; border: 6px solid white; box-shadow: 0 30px 60px -12px rgba(0,0,0,0.6); transform: rotate(-1.5deg); cursor: pointer; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; z-index: 5;">
+              <div id="avatar-trigger" class="avatar-main">
                   <img id="profile-preview-img" src="${user.profileImage || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.contact}`}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.05);"/>
                   <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.3)); pointer-events: none;"></div>
               </div>
               
-              <div class="avatar-edit-badge" id="avatar-edit-icon" style="bottom: -8px; right: -8px; width: 52px; height: 52px; border-radius: 20px; font-size: 24px; z-index: 10; background: var(--white); box-shadow: var(--shadow-2xl); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+              <div class="avatar-edit-badge" id="avatar-edit-icon">
                  🎨
               </div>
               
-              <div style="position: absolute; top: -12px; left: -12px; background: var(--white); width: 60px; height: 60px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: var(--shadow-lg); border: 2px solid ${theme}; z-index: 10;">
+              <div class="avatar-emoji-badge" style="border: 2px solid ${theme};">
                  ${emoji}
               </div>
             </div>
             
-            <h1 style="color: white; font-family: var(--font-heading); font-size: 36px; font-weight: 800; margin-bottom: 12px; letter-spacing: -1px; line-height: 1.1;">${user.name || 'Anonymous Explorer'}</h1>
-            <div style="display: flex; align-items: center; gap: 10px; justify-content: center;">
+            <h1 class="profile-name">${user.name || 'Anonymous Explorer'}</h1>
+            <div class="flex items-center gap-2 justify-center flex-wrap">
               <span style="color: white; font-weight: 800; font-size: 13px; background: ${theme}; padding: 8px 20px; border-radius: 100px; box-shadow: 0 8px 20px ${theme}33;">${personality}</span>
-              <span style="color: rgba(255,255,255,0.7); font-weight: 700; font-size: 12px; background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 100px; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1);">LEVEL ${latestResult ? '2' : '1'} CITIZEN</span>
+              <span style="color: rgba(255,255,255,0.7); font-weight: 700; font-size: 11px; background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 100px; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1);">LEVEL ${latestResult ? '2' : '1'} CITIZEN</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Content Hub -->
-      <div style="margin-top: -60px; padding: 0 24px; max-width: var(--max-w-content); margin-left: auto; margin-right: auto; position: relative; z-index: 20;">
+      <div class="meta-container">
         
         ${latestResult ? `
           <!-- FULL REPORT INTEGRATION -->
           
           <!-- Metadata Bar -->
-          <div class="animate-fadeInUp" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 24px;">
+          <div class="animate-fadeInUp metadata-bar">
              <div class="glass-card" style="padding: 10px 18px; border-radius: 100px; font-size: 11px; font-weight: 800; color: var(--gray-500); background: rgba(255,255,255,0.8); border: 1px solid var(--gray-100);">
                 ID: ${latestResult.id.toUpperCase()}
              </div>
@@ -84,31 +84,31 @@ export async function renderProfile(container) {
              </div>
           </div>
 
-          <!-- Neural Signature (New Lengthy Content) -->
-          <div class="glass-card animate-fadeInUp delay-1" style="padding: 40px; margin-bottom: 24px; border-radius: 40px; border: 1.5px solid rgba(255,255,255,0.8); box-shadow: var(--shadow-2xl); background: rgba(255,255,255,0.95); position: relative; overflow: hidden;">
+          <!-- Neural Signature -->
+          <div class="glass-card animate-fadeInUp delay-1" style="padding: 40px; margin-bottom: 24px; border-radius: 40px; border: 1.5px solid rgba(255,255,255,0.8); box-shadow: var(--shadow-2xl); background: rgba(255,255,255,0.95); position: relative; overflow: hidden;" class="px-mobile-4">
              <div style="position: absolute; top: -20px; left: -20px; width: 120px; height: 120px; background: var(--primary); opacity: 0.05; border-radius: 50%; filter: blur(40px);"></div>
              <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px; position: relative; z-index: 2;">
                 <div style="width: 44px; height: 44px; background: #EEF2FF; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px;">🧠</div>
-                <h3 style="font-weight: 900; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-500);">Neural Signature</h3>
+                <h3 style="font-weight: 900; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-500);">Neural Signature</h3>
              </div>
-             <p style="font-size: 19px; color: var(--gray-900); line-height: 1.7; font-weight: 600; position: relative; z-index: 2;">
+             <p style="font-size: 18px; color: var(--gray-900); line-height: 1.7; font-weight: 600; position: relative; z-index: 2;" class="text-mobile-lg">
                 ${latestResult.cognitiveSignature}
              </p>
           </div>
 
-          <!-- Market Value & Synergy Grid (New Lengthy Content) -->
-          <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; margin-bottom: 24px;">
-             <div class="card animate-fadeInUp delay-2" style="padding: 32px; border-radius: 36px; background: white; border: 1px solid var(--gray-100); display: flex; flex-direction: column; justify-content: center;">
-                <div style="font-size: 11px; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+          <!-- Market Value & Synergy Grid -->
+          <div class="card-grid-custom">
+             <div class="card animate-fadeInUp delay-2" style="padding: 32px; border-radius: 36px; background: white; border: 1px solid var(--gray-100); display: flex; flex-direction: column; justify-content: center;" class="px-mobile-4">
+                <div style="font-size: 10px; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
                    <span style="width: 8px; height: 8px; background: #059669; border-radius: 50%; display: inline-block;"></span> Strategic Placement
                 </div>
-                <h4 style="font-family: var(--font-heading); font-weight: 800; font-size: 22px; color: var(--gray-900); margin-bottom: 12px;">Market Valuation</h4>
-                <p style="font-size: 15px; color: var(--gray-600); line-height: 1.6; font-weight: 500;">${latestResult.marketValue}</p>
+                <h4 style="font-family: var(--font-heading); font-weight: 800; font-size: 20px; color: var(--gray-900); margin-bottom: 12px;">Market Valuation</h4>
+                <p style="font-size: 14px; color: var(--gray-600); line-height: 1.6; font-weight: 500;">${latestResult.marketValue}</p>
              </div>
              <div class="card animate-fadeInUp delay-2" style="padding: 32px; border-radius: 36px; background: var(--primary-gradient); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-                <div style="font-size: 44px; font-weight: 900; line-height: 1; margin-bottom: 4px;">${latestResult.neuralSynergy}%</div>
+                <div style="font-size: 40px; font-weight: 900; line-height: 1; margin-bottom: 4px;">${latestResult.neuralSynergy}%</div>
                 <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.8;">Neural Synergy</div>
-                <div style="margin-top: 16px; font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 100px;">SUPREME TIER</div>
+                <div style="margin-top: 16px; font-size: 10px; font-weight: 600; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 100px;">SUPREME TIER</div>
              </div>
           </div>
 
@@ -134,15 +134,15 @@ export async function renderProfile(container) {
           </div>
 
           <!-- Potential Spectrum Chart -->
-          <div class="card animate-fadeInUp delay-3" style="padding: 36px; border-radius: 40px; margin-bottom: 24px; box-shadow: var(--shadow-xl); background: white;">
-             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px;">
+          <div class="card animate-fadeInUp delay-3" style="padding: 36px; border-radius: 40px; margin-bottom: 24px; box-shadow: var(--shadow-xl); background: white;" class="px-mobile-4">
+             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px;" class="flex-wrap gap-2">
                 <div style="display: flex; align-items: center; gap: 14px;">
                    <div style="width: 48px; height: 48px; background: #F5F3FF; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 24px;">🧩</div>
-                   <h3 style="font-weight: 800; font-size: 20px; color: var(--gray-900); font-family: var(--font-heading);">Potential Spectrum</h3>
+                   <h3 style="font-weight: 800; font-size: 18px; color: var(--gray-900); font-family: var(--font-heading);">Potential Spectrum</h3>
                 </div>
-                <div style="font-size: 11px; font-weight: 800; color: var(--primary); background: var(--primary-lightest); padding: 6px 14px; border-radius: 100px; border: 1px solid var(--primary-light);">ELITE INSIGHT</div>
+                <div style="font-size: 10px; font-weight: 800; color: var(--primary); background: var(--primary-lightest); padding: 6px 14px; border-radius: 100px; border: 1px solid var(--primary-light);">ELITE INSIGHT</div>
              </div>
-             <div style="height: 340px; position: relative;">
+             <div style="height: 300px; position: relative;">
                 <canvas id="profile-radar-chart"></canvas>
              </div>
           </div>
@@ -158,10 +158,10 @@ export async function renderProfile(container) {
           </div>
 
           <!-- Strategy & Growth Hub -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
-             <div class="card animate-fadeInUp delay-4" style="padding: 32px; border-radius: 36px; background: white;">
+          <div class="evolution-grid">
+             <div class="card animate-fadeInUp delay-4" style="padding: 32px; border-radius: 36px; background: white;" class="px-mobile-4">
                 <div style="width: 52px; height: 52px; background: #F0FDF4; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 20px;">🛣️</div>
-                <h4 style="font-weight: 800; font-size: 15px; color: var(--gray-900); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Growth Plan</h4>
+                <h4 style="font-weight: 800; font-size: 14px; color: var(--gray-900); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Growth Plan</h4>
                 <div style="display: grid; gap: 8px;">
                    ${latestResult.skillPlan.map(s => `
                      <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--gray-600); font-weight: 600;">
@@ -170,9 +170,9 @@ export async function renderProfile(container) {
                    `).join('')}
                 </div>
              </div>
-             <div class="card animate-fadeInUp delay-4" style="padding: 32px; border-radius: 36px; background: white;">
+             <div class="card animate-fadeInUp delay-4" style="padding: 32px; border-radius: 36px; background: white;" class="px-mobile-4">
                 <div style="width: 52px; height: 52px; background: #FFF7ED; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 20px;">🛡️</div>
-                <h4 style="font-weight: 800; font-size: 15px; color: var(--gray-900); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Evolution Focus</h4>
+                <h4 style="font-weight: 800; font-size: 14px; color: var(--gray-900); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Evolution Focus</h4>
                 <div style="display: grid; gap: 8px;">
                    ${latestResult.areasToImprove.map(a => `
                      <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--gray-600); font-weight: 600;">
@@ -192,13 +192,13 @@ export async function renderProfile(container) {
                 </div>
                 <span style="font-size: 11px; font-weight: 900; color: #059669; background: #D1FAE5; padding: 6px 16px; border-radius: 100px;">VALIDATED MATCH</span>
              </div>
-             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+             <div class="career-grid">
                 ${latestResult.careers.map((c, i) => `
-                  <div style="display: flex; align-items: center; gap: 20px; padding: 24px; background: var(--gray-50); border-radius: 28px; border: 1.5px solid var(--white); box-shadow: var(--shadow-sm); transition: all 0.3s;" onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='var(--primary-lightest)';">
-                    <div style="width: 56px; height: 56px; background: white; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100);">${c.icon}</div>
+                   <div style="display: flex; align-items: center; gap: 20px; padding: 24px; background: var(--gray-50); border-radius: 28px; border: 1.5px solid var(--white); box-shadow: var(--shadow-sm); transition: all 0.3s;" onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='var(--primary-lightest)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--white)';">
+                    <div style="width: 56px; height: 56px; background: white; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100); flex-shrink: 0;">${c.icon}</div>
                     <div style="flex: 1;">
-                      <h4 style="font-family: var(--font-heading); font-weight: 800; font-size: 15px; color: var(--gray-900);">${c.title}</h4>
-                      <div style="font-size: 11px; font-weight: 700; color: var(--gray-400); margin-top: 4px;">RELEVANCE: <span style="color: var(--primary); font-weight: 800;">${c.match}%</span></div>
+                      <h4 style="font-family: var(--font-heading); font-weight: 800; font-size: 14px; color: var(--gray-900);">${c.title}</h4>
+                      <div style="font-size: 10px; font-weight: 700; color: var(--gray-400); margin-top: 4px;">RELEVANCE: <span style="color: var(--primary); font-weight: 800;">${c.match}%</span></div>
                     </div>
                   </div>
                 `).join('')}
@@ -227,7 +227,7 @@ export async function renderProfile(container) {
               <input type="text" id="profile-name" class="input-field" placeholder="Full Name" value="${user.name || ''}" style="border: 2px solid var(--gray-100); border-radius: 20px; padding: 20px; font-weight: 700; font-size: 15px;" />
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="grid grid-2 grid-mobile-1" style="gap: 20px;">
               <div class="auth-input-group">
                 <label style="font-weight: 800; font-size: 11px; margin-bottom: 12px; display:block; color:var(--gray-400); text-transform:uppercase; letter-spacing: 1.5px;">Age / Class Tier</label>
                 <input type="text" id="profile-age" class="input-field" placeholder="18 / Expert" value="${user.ageClass || ''}" style="border: 2px solid var(--gray-100); border-radius: 20px; padding: 20px; font-weight: 700; font-size: 15px;" />
@@ -253,17 +253,17 @@ export async function renderProfile(container) {
 
       <!-- Avatar Selection Modal -->
       <div id="avatar-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-content glass-card animate-scaleIn" style="max-width: 620px; padding: 40px; border-radius: 48px; background: white; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+        <div class="modal-content glass-card animate-scaleIn modal-content-custom">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;" class="gap-2">
             <div>
-               <h2 style="font-family: var(--font-heading); font-weight: 900; font-size: 28px; margin: 0; letter-spacing: -1px; color: var(--gray-900);">Persona Gallery</h2>
-               <p style="color: var(--gray-400); font-size: 13px; font-weight: 600; margin-top: 4px;">Choose your unique digital representation</p>
+               <h2 style="font-family: var(--font-heading); font-weight: 900; font-size: 24px; margin: 0; letter-spacing: -1px; color: var(--gray-900);" class="text-mobile-xl">Persona Gallery</h2>
+               <p style="color: var(--gray-400); font-size: 12px; font-weight: 600; margin-top: 4px;">Choose your unique representation</p>
             </div>
-            <button id="close-avatar-modal-btn" style="background: var(--gray-100); border: none; width: 44px; height: 44px; border-radius: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; transition: all 0.2s;">✕</button>
+            <button id="close-avatar-modal-btn" style="background: var(--gray-100); border: none; width: 44px; height: 44px; border-radius: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; transition: all 0.2s; flex-shrink: 0;">✕</button>
           </div>
           
-          <div class="avatar-grid" style="overflow-y: auto; padding-right: 12px; flex: 1;">
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 32px;">
+          <div class="avatar-grid" style="overflow-y: auto; padding-right: 4px; flex: 1;">
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px;">
               ${[1,2,3,4].map(i => `
                 <div class="avatar-option ${user.profileImage === `/avatars/male_${i}.png` ? 'avatar-option--selected' : ''}" data-url="/avatars/male_${i}.png" style="border-radius: 32px; border: 3px solid var(--gray-100); background: #F8FAFC; transition: all 0.3s; cursor: pointer; position: relative; overflow: hidden; aspect-ratio: 0.9;">
                   <img src="/avatars/male_${i}.png" alt="Male Persona ${i}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s;">

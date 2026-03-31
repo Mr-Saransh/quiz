@@ -88,17 +88,18 @@ input, textarea, select {
 /* ===== Utility Classes ===== */
 .page-container {
   width: 100%;
+  max-width: var(--max-w-content);
   margin: 0 auto;
   min-height: 100dvh;
   position: relative;
   background: var(--cream);
   overflow-x: hidden;
-  padding-bottom: 20px;
+  padding-bottom: 120px;
 }
 
 @media (max-width: 767px) {
   .page-container {
-    max-width: var(--max-w-mobile);
+    padding-bottom: 80px;
   }
 }
 
@@ -128,7 +129,34 @@ input, textarea, select {
 .gap-6 { gap: var(--space-6); }
 
 .w-full { width: 100%; }
+.h-full { height: 100%; }
 .relative { position: relative; }
+.overflow-hidden { overflow: hidden; }
+
+/* Responsive Grid System */
+.grid { display: grid; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-tight { gap: var(--space-4); }
+.grid-wide { gap: var(--space-8); }
+
+@media (max-width: 767px) {
+  .grid-mobile-1 { grid-template-columns: 1fr !important; }
+  .grid-mobile-2 { grid-template-columns: repeat(2, 1fr) !important; }
+  
+  .px-mobile-4 { padding-left: var(--space-4) !important; padding-right: var(--space-4) !important; }
+  .py-mobile-8 { padding-top: var(--space-8) !important; padding-bottom: var(--space-8) !important; }
+  
+  .text-mobile-center { text-align: center !important; }
+  .text-mobile-lg { font-size: var(--text-lg) !important; }
+  .text-mobile-xl { font-size: var(--text-xl) !important; }
+  .text-mobile-2xl { font-size: var(--text-2xl) !important; }
+}
+
+/* Common Layout Patterns */
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-wrap { flex-wrap: wrap; }
 
 /* ===== Animations ===== */
 @keyframes fadeIn {
@@ -301,6 +329,7 @@ input, textarea, select {
     background-color: var(--spark-cream);
   }
 
+
   #app {
     max-width: none;
     min-height: 100dvh;
@@ -308,4 +337,20 @@ input, textarea, select {
     border-radius: 0;
     position: relative;
   }
+}
+
+/* Mobile Typography & Spacing Utilities */
+@media (max-width: 768px) {
+  .text-mobile-xs { font-size: 10px !important; }
+  .text-mobile-sm { font-size: 12px !important; }
+  .text-mobile-base { font-size: 14px !important; }
+  .text-mobile-lg { font-size: 16px !important; }
+  .text-mobile-xl { font-size: 18px !important; }
+  .text-mobile-2xl { font-size: 22px !important; }
+  .text-mobile-3xl { font-size: 26px !important; }
+  .text-mobile-4xl { font-size: 32px !important; }
+  
+  .px-mobile-2 { padding-left: 8px !important; padding-right: 8px !important; }
+  .px-mobile-4 { padding-left: 16px !important; padding-right: 16px !important; }
+  .px-mobile-6 { padding-left: 24px !important; padding-right: 24px !important; }
 }

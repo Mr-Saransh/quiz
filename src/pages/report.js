@@ -30,9 +30,9 @@ export async function renderReport(container, params) {
 
   if (!result) {
     container.innerHTML = `
-      <div class="page-container" style="display:flex;align-items:center;justify-content:center;min-height:100dvh;flex-direction:column;gap:16px;padding:24px;text-align:center;">
+      <div class="page-container flex-center flex-col text-center" style="min-height:100dvh;gap:16px;padding:24px;">
         <div style="font-size:64px;">🔍</div>
-        <h2>Report Not Found</h2>
+        <h2 style="font-family: var(--font-heading); font-weight: 800;">Report Not Found</h2>
         <button class="btn btn--primary" id="report-take-test">Back to Dashboard</button>
       </div>
     `;
@@ -48,12 +48,12 @@ export async function renderReport(container, params) {
         <div class="report-header__badge">
           <span>✨ Assessment Complete</span>
         </div>
-        <h1 class="report-header__title">Your True Potential</h1>
+        <h1 class="report-header__title text-mobile-3xl">Your True Potential</h1>
         <p class="report-header__subtitle">Insight • AI Driven • Report</p>
 
 
         <div class="report-status-badge">
-          <span>🌟 ${result.personalityType}</span>
+          <span class="text-mobile-sm">🌟 ${result.personalityType}</span>
         </div>
       </header>
 
@@ -106,7 +106,7 @@ export async function renderReport(container, params) {
             <span class="report-section__icon">✨</span>
             <h3 class="report-section__title">Top Strengths</h3>
           </div>
-          <div class="strengths-grid">
+          <div class="strengths-grid grid-mobile-1">
             ${result.topStrengths.slice(0, 4).map((s, i) => `
               <div class="strength-card">
                 <div class="strength-card__icon">${getStrengthIcon(s.name)}</div>
@@ -155,7 +155,7 @@ export async function renderReport(container, params) {
             <span class="report-section__icon">🧬</span>
             <h3 class="report-section__title">Growth Dimensions</h3>
           </div>
-          <div class="growth-grid">
+          <div class="growth-grid grid-mobile-1">
             <div class="growth-card">
               <div class="growth-card__title">Cognitive Signature</div>
               <div class="growth-card__text">${result.cognitiveSignature || 'Analytical & Methodical'}</div>
