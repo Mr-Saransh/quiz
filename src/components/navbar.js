@@ -17,6 +17,7 @@ export function renderNavbar() {
   const items = [
     { id: 'nav-home', icon: '🏠', label: 'Home', route: '/dashboard' },
     { id: 'nav-leaderboard', icon: '🏆', label: 'Ranking', route: '/leaderboard' },
+    { id: 'nav-competitions', icon: '⚡', label: 'Compete', route: '/competitions' },
     { id: 'nav-notifications', icon: '🔔', label: 'Alerts', route: '/alerts', badge: true },
     { id: 'nav-profile', icon: '👤', label: 'Profile', route: '/profile' },
   ];

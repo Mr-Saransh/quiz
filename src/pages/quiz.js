@@ -1,6 +1,6 @@
 // ===== Quiz Page =====
 import { navigate, getCurrentRoute } from '../router.js';
-import { getUser, isLoggedIn, saveResult } from '../utils/storage.js';
+import { getUser, setUser, isLoggedIn, saveResult } from '../utils/storage.js';
 import { shuffleArray } from '../utils/helpers.js';
 import { getRandomSet, CATEGORIES } from '../data/questions.js';
 import { calculateResults, CATEGORY_COLORS, CATEGORY_EMOJIS, CATEGORY_LABELS } from '../engine/scoring.js';
@@ -242,6 +242,13 @@ async function finishQuiz(container) {
       // Also save locally for offline access
       result.id = data.resultId;
       saveResult(result);
+
+      // Update user personality/theme in local storage if returned
+      if (data.updatedUser) {
+        const u = getUser();
+        setUser({ ...u, ...data.updatedUser });
+      }
+
       setTimeout(() => navigate(`/results/${data.resultId}`), 1500);
     } else {
       throw new Error('Submit failed');

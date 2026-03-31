@@ -244,15 +244,32 @@ export function calculateResults(answers, questions, user) {
     creative: 'Never suppress your creative instincts; they are what will make you irreplaceable.'
   };
 
+  // Custom deep-dive insights
+  const cognitiveSignatures = {
+    innovator: 'Your cognitive signature is defined by "Divergent Synthesis". You excel at taking disparate pieces of data and merging them into a cohesive, novel architecture. Your brain bypasses conventional linear processing in favor of high-speed pattern recognition.',
+    humanitarian: 'Your cognitive signature is defined by "Empathetic Resonance". You have a unique neurological ability to mirror and decode the emotional states of those around you, allowing you to build trust and drive systemic social change.',
+    strategist: 'Your cognitive signature is defined by "Quantum Logic". You process variables simultaneously rather than sequentially, allowing you to project long-term outcomes and identify critical risks with surgical precision.',
+    creator: 'Your cognitive signature is defined by "Aesthetic Fluency". You translate abstract concepts into visual or narrative languages with ease, creating a powerful emotional bridge between ideas and their audience.',
+    leader: 'Your cognitive signature is defined by "Command Presence". You naturally synthesize interpersonal data into strategic action, allowing you to mobilize diverse teams toward a singular, high-stakes vision.'
+  };
+
+  const marketValues = {
+    innovator: 'Elite Tier: High demand in R&D, AI development, and disruptive product leadership. You represent the top 5% of technical visionaries.',
+    humanitarian: 'Strategic Asset: Essential for public policy, social infrastructure, and corporate stewardship. You drive the "Moral Advantage" of organizations.',
+    strategist: 'Core Pillar: Critical for financial architecture, operational scaling, and risk mitigation. You are the architect of sustainable growth.',
+    creator: 'High Impact: Vital for brand evolution, digital storytelling, and consumer experience. You turn abstract products into cultural phenomena.',
+    leader: 'Supreme Tier: Required for organizational scaling, capital management, and high-trust leadership roles. You are a natural force multiplier.'
+  };
+
   const actionableAdvice = `${personality.actionableAdvice} Also, ${categoryAdvice[primaryCat]}`;
   
   // Determine traits with percentages
   const topStrengths = personality.topStrengths
     .sort(() => 0.5 - Math.random())
-    .slice(0, 4)
+    .slice(0, 5)
     .map((trait) => ({ 
       name: trait, 
-      value: clampScore(75 + Math.floor(Math.random() * 20)) 
+      value: clampScore(78 + Math.floor(Math.random() * 20)) 
     }));
   
   return {
@@ -270,13 +287,16 @@ export function calculateResults(answers, questions, user) {
     personalityType: subTypeName,
     personalityEmoji: personality.emoji,
     personalityDesc: description,
+    cognitiveSignature: cognitiveSignatures[personalityType],
+    marketValue: marketValues[personalityType],
+    neuralSynergy: clampScore(80 + Math.floor(Math.random() * 18)),
     topStrengths,
-    areasToImprove: personality.areasToImprove.sort(() => 0.5 - Math.random()).slice(0, 3),
-    skillPlan: personality.skillPlan.sort(() => 0.5 - Math.random()).slice(0, 3),
+    areasToImprove: personality.areasToImprove.sort(() => 0.5 - Math.random()).slice(0, 4),
+    skillPlan: personality.skillPlan.sort(() => 0.5 - Math.random()).slice(0, 4),
     learningStyle: personality.learningStyle,
     workEnvironment: personality.workEnvironment,
     actionableAdvice: actionableAdvice,
-    careers: personality.careers.sort(() => 0.5 - Math.random()).slice(0, 5),
+    careers: personality.careers.sort(() => 0.5 - Math.random()).slice(0, 6),
     hiddenTalent: personality.hiddenTalent,
     hiddenTalentDesc: personality.hiddenDesc,
   };

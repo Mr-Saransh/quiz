@@ -9,7 +9,9 @@ router.post('/submit', async (req, res) => {
     const {
       userId, setIndex, totalScore, totalCorrect, totalQuestions,
       categoryScores, personalityType, personalityEmoji, personalityDesc,
-      topStrengths, areasToImprove, skillPlan, careers, hiddenTalent, hiddenTalentDesc, answers,
+      topStrengths, areasToImprove, skillPlan, careers, 
+      learningStyle, workEnvironment, actionableAdvice,
+      hiddenTalent, hiddenTalentDesc, answers,
     } = req.body;
 
     if (!userId) {
@@ -31,15 +33,43 @@ router.post('/submit', async (req, res) => {
         areasToImprove: JSON.stringify(areasToImprove || []),
         skillPlan: JSON.stringify(skillPlan || []),
         careers: JSON.stringify(careers || []),
+        learningStyle: learningStyle || '',
+        workEnvironment: workEnvironment || '',
+        actionableAdvice: actionableAdvice || '',
         hiddenTalent: hiddenTalent || '',
         hiddenTalentDesc: hiddenTalentDesc || '',
         answers: JSON.stringify(answers || []),
       },
     });
 
+    // Determine theme color based on personality
+    let themeColor = '#A78BFA'; // Default purple
+    if (personalityType.includes('Innovator')) themeColor = '#3B82F6'; // Blue
+    if (personalityType.includes('Humanitarian')) themeColor = '#10B981'; // Green
+    if (personalityType.includes('Strategist')) themeColor = '#6366F1'; // Indigo
+    if (personalityType.includes('Creator')) themeColor = '#F59E0B'; // Amber
+    if (personalityType.includes('Leader')) themeColor = '#EF4444'; // Red
+
+    // Update user profile with personality & theme
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        personalityType: personalityType || '',
+        personalityEmoji: personalityEmoji || '',
+        personalityDesc: personalityDesc || '',
+        themeColor: themeColor,
+        primaryTrait: (topStrengths && topStrengths.length > 0) ? topStrengths[0].name : '',
+      }
+    }).catch(e => console.error('Failed to update user profile:', e));
+
     res.json({
       success: true,
       resultId: result.id,
+      updatedUser: {
+        personalityType,
+        personalityEmoji,
+        themeColor
+      }
     });
   } catch (error) {
     console.error('Submit quiz error:', error);

@@ -4,13 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite\" \"node server/index.js\"",
+    "dev": "concurrently \"vite\" \"node --env-file=.env server/index.js\"",
     "dev:client": "vite",
-    "dev:server": "node server/index.js",
-    "build": "prisma generate && vite build",
-    "postinstall": "prisma generate",
+    "dev:server": "node --env-file=.env server/index.js",
+    "build": "npm run db:gen && vite build",
+    "db:gen": "prisma generate",
+    "postinstall": "npm run db:gen",
     "preview": "vite preview",
-    "db:push": "npx prisma db push",
+    "db:push": "node --env-file=.env node_modules/prisma/build/index.js db push --accept-data-loss",
     "db:studio": "npx prisma studio"
   },
   "devDependencies": {

@@ -131,16 +131,16 @@
 }
 
 .landing__cta-btn {
-  background: #7B49DF;
+  background: var(--primary);
   color: white;
-  font-family: var(--font-body);
+  font-family: var(--font-heading);
   font-size: 18px;
   font-weight: 700;
   padding: 24px 48px;
-  border-radius: 99px;
+  border-radius: var(--radius-xl);
   border: none;
   cursor: pointer;
-  box-shadow: 0 10px 20px rgba(123, 73, 223, 0.3);
+  box-shadow: var(--shadow-primary);
   transition: all 0.3s var(--ease-spring);
   display: flex;
   align-items: center;
@@ -149,8 +149,8 @@
 }
 
 .landing__cta-btn:hover {
-  transform: scale(1.03);
-  box-shadow: 0 15px 30px rgba(123, 73, 223, 0.4);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(79, 70, 229, 0.4);
 }
 
 .landing__cta-btn--large {
