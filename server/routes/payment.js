@@ -35,10 +35,13 @@ router.post('/order', async (req, res) => {
     }
 
     // 2. Prepare Order Options
+    // Razorpay receipt MUST be under 40 characters
+    const receipt = `rcpt_${Date.now()}_${courseId.slice(-8)}`; 
+    
     const options = {
       amount: Math.round(course.price * 100), // Convert to paise
       currency: 'INR',
-      receipt: `receipt_${Date.now()}_${courseId}`,
+      receipt: receipt,
       notes: {
         courseId: courseId,
         userId: userId,
@@ -51,6 +54,7 @@ router.post('/order', async (req, res) => {
     
     // Check for mock key to allow testing without real credentials
     if (key_id === 'rzp_test_1234567890') {
+      console.log('--- MOCK PAYMENT ORDER GENERATED ---');
       const mockOrder = {
         id: `order_mock_${Date.now()}`,
         entity: 'order',
@@ -71,8 +75,17 @@ router.post('/order', async (req, res) => {
     res.json(order);
 
   } catch (error) {
-    console.error('Razorpay Order Error:', error);
-    res.status(500).json({ error: 'Error creating Razorpay order' });
+    console.error('\u274c RAZORPAY_ORDER_FAILURE:', {
+      message: error.message,
+      code: error.code,
+      description: error.description,
+      stack: error.stack
+    });
+    
+    res.status(500).json({ 
+      error: 'Error creating Razorpay order',
+      details: error.description || error.message 
+    });
   }
 });
 
