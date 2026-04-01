@@ -252,7 +252,8 @@ function getGradientForCategory(cat) {
     tech: '#6366F1',
     reasoning: '#A855F7',
     personality: '#10B981',
-    creative: '#F59E0B'
+    creative: '#F59E0B',
+    eq: '#EC4899'
   };
   return gradients[cat] || '#6366F1';
 }
@@ -266,7 +267,8 @@ function getStrengthIcon(name) {
     'Creative Thinking': '🎨',
     'Analytical Thinking': '🧩',
     'Leadership': '👑',
-    'Problem Solving': '💡'
+    'Problem Solving': '💡',
+    'Emotional Intelligence': '🧠'
   };
   return icons[name] || '✨';
 }

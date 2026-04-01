@@ -68,12 +68,15 @@ export function renderDashboard(container) {
           <span style="font-size: 12px; font-weight: 700; color: var(--primary); cursor: pointer;">Show All</span>
         </div>
 
-        <div class="grid grid-2 grid-mobile-1" style="gap: 16px;" id="dash-categories">
+        <div class="dash-categories animate-fadeInUp delay-2" id="dash-categories">
           ${CATEGORIES.map((cat, i) => `
-            <div class="category-card animate-fadeInUp delay-${i + 1}" data-category="${cat.key}" style="background: var(--white); border-radius: 24px; padding: 20px; border: 1px solid var(--gray-100); cursor: pointer;">
-              <div style="width: 44px; height: 44px; background: var(--gray-50); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 16px; border: 1px solid var(--gray-100);">${cat.emoji}</div>
-              <h4 style="font-family: var(--font-heading); font-weight: 800; font-size: 14px; color: var(--gray-900); margin-bottom: 4px;">${cat.label}</h4>
-              <p style="font-size: 10px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px;">Level Up</p>
+            <div class="category-card category-card--${cat.key}" data-category="${cat.key}">
+              <div class="category-card__icon">${cat.emoji}</div>
+              <div class="category-card__content">
+                <h4 class="category-card__label">${cat.label}</h4>
+                <p class="category-card__status">Explore Module</p>
+              </div>
+              <div class="category-card__arrow">→</div>
             </div>
           `).join('')}
         </div>
@@ -81,7 +84,7 @@ export function renderDashboard(container) {
 
       ${latest ? `
         <!-- Floating Latest Report -->
-        <div class="px-mobile-4" style="padding: 32px 24px 0;">
+        <div class="px-mobile-4" style="padding: 12px 24px 0;">
           <div class="card card--interactive animate-fadeInUp delay-5" id="view-latest-report" style="border-radius: 24px; padding: 16px; background: var(--white); border: 1px solid var(--gray-100); box-shadow: var(--shadow-lg);">
             <div style="display:flex;align-items:center;gap:14px;">
               <div style="width: 52px; height: 52px; background: var(--primary-lightest); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;">${latest.personalityEmoji || '📊'}</div>
@@ -94,6 +97,9 @@ export function renderDashboard(container) {
           </div>
         </div>
       ` : ''}
+
+      <!-- Bottom Spacer to prevent fixed navbar overlap -->
+      <div class="dash-footer-spacer" style="height: 120px;"></div>
     </div>
   `;
 

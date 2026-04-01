@@ -8,6 +8,7 @@ import './styles/quiz.css';
 import './styles/report.css';
 import './styles/leaderboard.css';
 import './styles/profile.css';
+import './styles/courses.css';
 
 import { registerRoute, initRouter } from './router.js';
 import { initStorage } from './utils/storage.js';
@@ -24,6 +25,8 @@ import { renderAlerts } from './pages/alerts.js';
 import { renderAdmin } from './pages/admin.js';
 import { renderAdminLogin } from './pages/admin-login.js';
 import { renderEvents } from './pages/events.js';
+import { renderCourses } from './pages/courses.js';
+import { renderCoursePlayer } from './pages/course-player.js';
 
 // Initialize storage (default leaderboard)
 initStorage();
@@ -40,6 +43,8 @@ registerRoute('/alerts', renderAlerts);
 registerRoute('/admin', renderAdmin);
 registerRoute('/admin-login', renderAdminLogin);
 registerRoute('/events', renderEvents);
+registerRoute('/courses', renderCourses);
+registerRoute('/course/:courseId', renderCoursePlayer);
 
 // Start router
 initRouter();

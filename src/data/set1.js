@@ -188,5 +188,42 @@ export default [
     text:'Your ideal weekend activity is:',
     options:['Attending a hackathon or workshop','Visiting an art gallery or museum','Volunteering at a local shelter','Planning and organizing an event'],
     weights:{0:{logic:2,creativity:1},1:{creativity:3},2:{empathy:3},3:{leadership:3}}
+  },
+  // ── EMOTIONAL INTELLIGENCE (6) ──
+  {
+    id: '1e1', category: 'eq', type: 'subjective',
+    text: 'A friend is visibly upset but says "I\'m fine." How do you respond?',
+    options: ['Believe them and move on', 'Gently ask if they want to talk later', 'Insist they tell you what\'s wrong now', 'Tell a joke to cheer them up'],
+    weights: { 0: { practicality: 2 }, 1: { empathy: 3, leadership: 1 }, 2: { empathy: 1 }, 3: { creativity: 2, empathy: 1 } }
+  },
+  {
+    id: '1e2', category: 'eq', type: 'subjective',
+    text: 'You receive critical feedback on a project you worked hard on. You:',
+    options: ['Get defensive and explain why they\'re wrong', 'Listen calmly and ask for specific improvements', 'Feel discouraged and want to quit', 'Ignore the feedback and keep going'],
+    weights: { 0: { leadership: 1 }, 1: { logic: 2, leadership: 2 }, 2: { empathy: 1 }, 3: { practicality: 2 } }
+  },
+  {
+    id: '1e3', category: 'eq', type: 'subjective',
+    text: 'Two of your close friends are having a heated argument. You:',
+    options: ['Take a side to end the argument quickly', 'Try to mediate and help them see each other\'s view', 'Stay out of it completely', 'Make fun of the situation to lighten the mood'],
+    weights: { 0: { leadership: 1 }, 1: { empathy: 3, leadership: 2 }, 2: { practicality: 2 }, 3: { creativity: 2 } }
+  },
+  {
+    id: '1e4', category: 'eq', type: 'subjective',
+    text: 'You feel overwhelmed with schoolwork and stress. You:',
+    options: ['Push through and work until you\'re exhausted', 'Take a break and practice a relaxation technique', 'Complain to your friends about it', 'Procrastinate and watch videos instead'],
+    weights: { 0: { practicality: 2 }, 1: { empathy: 2, logic: 1 }, 2: { empathy: 1 }, 3: { creativity: 1 } }
+  },
+  {
+    id: '1e5', category: 'eq', type: 'subjective',
+    text: 'You see someone sitting alone and looking sad at a party. You:',
+    options: ['Assume they want to be alone', 'Go over and strike up a simple conversation', 'Ask your friends to go talk to them', 'Wait for them to come to you'],
+    weights: { 0: { practicality: 1 }, 1: { empathy: 3, leadership: 1 }, 2: { leadership: 2, empathy: 1 }, 3: { practicality: 1 } }
+  },
+  {
+    id: '1e6', category: 'eq', type: 'subjective',
+    text: 'You accidentally hurt someone\'s feelings. You:',
+    options: ['Apologize sincerely and ask how to make it right', 'Wait for them to get over it', 'Make an excuse for your behavior', 'Avoid them because you feel guilty'],
+    weights: { 0: { empathy: 3, leadership: 1 }, 1: { practicality: 1 }, 2: { logic: 1 }, 3: { empathy: 1 } }
   }
 ];

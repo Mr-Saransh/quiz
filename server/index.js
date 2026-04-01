@@ -6,7 +6,9 @@ import quizRoutes from './routes/quiz.js';
 import leaderboardRoutes from './routes/leaderboard.js';
 import statsRoutes from './routes/stats.js';
 import competitionRoutes from './routes/competitions.js';
+import courseRoutes from './routes/courses.js';
 import adminRoutes from './routes/admin.js';
+import paymentRoutes from './routes/payment.js';
 
 const app = express();
 const PORT = 3002;
@@ -34,14 +36,10 @@ app.use('/api/quiz', quizRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/competitions', competitionRoutes);
-// Admin Login Logic directly in index.js for failsafe mounting
-app.post('/api/admin/login', (req, res) => {
-  const { id, password } = req.body;
-  if (id === 'admin' && password === 'admin@apni123') {
-    return res.json({ success: true, token: 'admin-secret-token' });
-  }
-  res.status(401).json({ error: 'Invalid admin credentials' });
-});
+app.use('/api/courses', courseRoutes);
+app.use('/api/payment', paymentRoutes);
+
+app.use('/api/admin', adminRoutes);
 
 app.use('/api/admin', adminRoutes);
 

@@ -30,11 +30,11 @@ const PERSONALITY_TYPES = {
     name: 'The Humanitarian',
     emoji: '🤝',
     variants: [
-      'You are deeply empathetic and driven by a desire to make the world better. Your moral compass and people skills are your superpower.',
+      'You are driven by a desire to make the world better. Your high Emotional Intelligence and people skills allow you to build deep connections.',
       'Your natural ability to connect with people on a deep level allows you to build strong communities and drive social change.',
       'You possess a rare combination of empathy and grit, making you a powerful advocate for those who need a voice.'
     ],
-    topStrengths: ['Empathy', 'Conflict Resolution', 'Community Building', 'Integrity', 'Persuasion'],
+    topStrengths: ['Empathy', 'Emotional Intelligence', 'Conflict Resolution', 'Community Building', 'Integrity'],
     areasToImprove: ['Data Analysis', 'Technical Systems', 'Setting Boundaries', 'Emotional Detachment'],
     skillPlan: ['Volunteer for major NGOs', 'Attend Leadership Summits', 'Learn Conflict Management', 'Study Public Policy'],
     learningStyle: 'Collaborative discussion and case studies. You learn best when you can relate concepts to human experiences.',
@@ -48,7 +48,7 @@ const PERSONALITY_TYPES = {
       { title: 'NGO Director (Global)', icon: '🌍', match: 94, context: 'Leading large-scale social impact projects across rural India.' },
       { title: 'Corporate Social Responsibility (CSR) Head', icon: '🏢', match: 88, context: 'Bridging corporate profit with social good in major MNCs.' },
     ],
-    hiddenTalent: 'Emotional Intelligence',
+    hiddenTalent: 'Deep Empathy',
     hiddenDesc: 'Your ability to understand and navigate complex emotions — both your own and others\' — is exceptional and will open doors in any career.',
   },
   strategist: {
@@ -134,6 +134,7 @@ const CATEGORY_COLORS = {
   reasoning: 'purple',
   personality: 'green',
   creative: 'gold',
+  eq: 'pink',
 };
 
 const CATEGORY_EMOJIS = {
@@ -142,6 +143,7 @@ const CATEGORY_EMOJIS = {
   reasoning: '🧩',
   personality: '🤝',
   creative: '🎨',
+  eq: '🧠',
 };
 
 const CATEGORY_LABELS = {
@@ -150,6 +152,7 @@ const CATEGORY_LABELS = {
   reasoning: 'Analytical Thinking',
   personality: 'Personality & Values',
   creative: 'Creative Aptitude',
+  eq: 'Emotional Intelligence',
 };
 
 export function calculateResults(answers, questions, user) {
@@ -159,6 +162,7 @@ export function calculateResults(answers, questions, user) {
     reasoning: { correct: 0, total: 0, weighted: 0 },
     personality: { correct: 0, total: 0, weighted: 0 },
     creative: { correct: 0, total: 0, weighted: 0 },
+    eq: { correct: 0, total: 0, weighted: 0 },
   };
   
   // Personality dimension accumulators
@@ -213,9 +217,10 @@ export function calculateResults(answers, questions, user) {
   categoryPcts.moral = clampScore(categoryPcts.moral + Math.floor(Math.random() * 15));
   categoryPcts.personality = clampScore(categoryPcts.personality + Math.floor(Math.random() * 10));
   categoryPcts.creative = clampScore(categoryPcts.creative + Math.floor(Math.random() * 12));
+  categoryPcts.eq = clampScore(categoryPcts.eq + Math.floor(Math.random() * 15));
   
   // Overall score (out of 1000)
-  const avgPct = Object.values(categoryPcts).reduce((a, b) => a + b, 0) / 5;
+  const avgPct = Object.values(categoryPcts).reduce((a, b) => a + b, 0) / 6;
   const totalScore = Math.round(avgPct * 10);
   
   // Determine personality type
@@ -228,7 +233,7 @@ export function calculateResults(answers, questions, user) {
   const secondaryCat = sortedCats[1][0];
 
   const subTypePrefixes = {
-    moral: 'Ethical', tech: 'Technical', reasoning: 'Analytical', personality: 'Social', creative: 'Creative'
+    moral: 'Ethical', tech: 'Technical', reasoning: 'Analytical', personality: 'Social', creative: 'Creative', eq: 'Empathetic'
   };
   const subTypeName = `${subTypePrefixes[primaryCat]} ${personality.name.split(' ')[1]}`;
   
@@ -241,7 +246,8 @@ export function calculateResults(answers, questions, user) {
     tech: 'Leveraging your technical aptitude will be key to your career growth in the digital era.',
     reasoning: 'Your logical clarity allows you to solve problems that baffle others.',
     personality: 'Your ability to read and influence social dynamics is your greatest superpower.',
-    creative: 'Never suppress your creative instincts; they are what will make you irreplaceable.'
+    creative: 'Never suppress your creative instincts; they are what will make you irreplaceable.',
+    eq: 'Your high emotional intelligence allows you to navigate complex human dynamics with grace.'
   };
 
   // Custom deep-dive insights
@@ -306,10 +312,10 @@ function determinePersonalityType(categoryPcts, dims) {
   // Weight categories + personality dimensions
   const scores = {
     innovator: (categoryPcts.tech * 0.3 + categoryPcts.creative * 0.4 + dims.creativity * 2),
-    humanitarian: (categoryPcts.moral * 0.4 + categoryPcts.personality * 0.3 + dims.empathy * 2),
+    humanitarian: (categoryPcts.moral * 0.3 + categoryPcts.eq * 0.4 + dims.empathy * 2),
     strategist: (categoryPcts.reasoning * 0.4 + categoryPcts.tech * 0.3 + dims.logic * 2),
-    creator: (categoryPcts.creative * 0.4 + categoryPcts.moral * 0.2 + dims.creativity * 1.5 + dims.empathy),
-    leader: (categoryPcts.personality * 0.3 + categoryPcts.reasoning * 0.3 + dims.leadership * 2),
+    creator: (categoryPcts.creative * 0.4 + categoryPcts.eq * 0.2 + dims.creativity * 1.5 + dims.empathy),
+    leader: (categoryPcts.personality * 0.2 + categoryPcts.eq * 0.2 + categoryPcts.reasoning * 0.3 + dims.leadership * 2),
   };
   
   let maxType = 'innovator';

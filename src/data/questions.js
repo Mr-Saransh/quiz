@@ -13,6 +13,7 @@ export const CATEGORIES = [
   { key: 'reasoning', label: 'Reasoning', emoji: '🧩', color: 'purple' },
   { key: 'personality', label: 'Personality & Volunteering', emoji: '🤝', color: 'green' },
   { key: 'creative', label: 'Creative / Aptitude', emoji: '🎨', color: 'gold' },
+  { key: 'eq', label: 'Emotional Intelligence', emoji: '🧠', color: 'pink' },
 ];
 
 export function getRandomSet() {

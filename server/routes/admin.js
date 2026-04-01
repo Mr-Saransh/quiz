@@ -57,4 +57,88 @@ router.post('/notify-enrolled', async (req, res) => {
   }
 });
 
+// Admin: Get all courses
+router.get('/courses', async (req, res) => {
+  try {
+    const courses = await prisma.course.findMany({
+      include: {
+        lessons: { orderBy: { order: 'asc' } },
+        _count: {
+          select: { lessons: true, enrollments: true }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+    res.json(courses);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Admin: Create/Update course
+router.post('/courses', async (req, res) => {
+  try {
+    const { id, title, description, thumbnail, price, published } = req.body;
+    
+    if (id) {
+      // Update
+      const course = await prisma.course.update({
+        where: { id },
+        data: { title, description, thumbnail, price, published }
+      });
+      return res.json(course);
+    } else {
+      // Create
+      const course = await prisma.course.create({
+        data: { title, description, thumbnail, price, published }
+      });
+      return res.json(course);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Admin: Delete course
+router.delete('/courses/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await prisma.course.delete({ where: { id } });
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Admin: Manage Lessons
+router.post('/lessons', async (req, res) => {
+  const { id, courseId, title, description, content, youtubeVideoId, order } = req.body;
+  try {
+    if (id) {
+      const lesson = await prisma.lesson.update({
+        where: { id },
+        data: { title, description, content, youtubeVideoId, order: parseInt(order) || 0 }
+      });
+      res.json(lesson);
+    } else {
+      const lesson = await prisma.lesson.create({
+        data: { courseId, title, description, content, youtubeVideoId, order: parseInt(order) || 0 }
+      });
+      res.status(201).json(lesson);
+    }
+  } catch (error) {
+    console.error('Lesson Upsert Error:', error);
+    res.status(500).json({ error: 'Failed to save lesson' });
+  }
+});
+
+router.delete('/lessons/:id', async (req, res) => {
+  try {
+    await prisma.lesson.delete({ where: { id: req.params.id } });
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete lesson' });
+  }
+});
+
 export default router;

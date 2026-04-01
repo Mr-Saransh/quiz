@@ -19,6 +19,7 @@ model User {
   updatedAt        DateTime     @updatedAt
   results          QuizResult[]
   enrollments      Enrollment[]
+  courseEnrollments CourseEnrollment[]
   notifications    Notification[]
   
   // Dynamic profile theme fields
@@ -48,6 +49,42 @@ model Enrollment {
   competition   Competition @relation(fields: [competitionId], references: [id])
 
   @@unique([userId, competitionId])
+}
+
+model Course {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  thumbnail   String?
+  published   Boolean  @default(false)
+  price       Float    @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  lessons     Lesson[]
+  enrollments CourseEnrollment[]
+}
+
+model Lesson {
+  id              String   @id @default(uuid())
+  courseId        String
+  title           String
+  description     String?
+  content         String?
+  youtubeVideoId  String?
+  order           Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  course          Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+}
+
+model CourseEnrollment {
+  id        String   @id @default(uuid())
+  userId    String
+  courseId  String
+  enrolledAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  @@unique([userId, courseId])
 }
 
 model Notification {

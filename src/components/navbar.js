@@ -16,6 +16,7 @@ export function renderNavbar() {
 
   const items = [
     { id: 'nav-home', icon: '🏠', label: 'Home', route: '/dashboard' },
+    { id: 'nav-courses', icon: '📚', label: 'Courses', route: '/courses' },
     { id: 'nav-leaderboard', icon: '🏆', label: 'Ranking', route: '/leaderboard' },
     { id: 'nav-events', icon: '⚡', label: 'Events', route: '/events' },
     { id: 'nav-profile', icon: '👤', label: 'Profile', route: '/profile' },
@@ -23,21 +24,23 @@ export function renderNavbar() {
   
   container.innerHTML = `
     <nav class="bottom-nav" role="navigation" aria-label="Main navigation">
-      ${items.map(item => {
-        // Active logic: exact match or home link for dashboard
-        const isActive = (item.route === '/dashboard' && currentRoute === '/dashboard') || 
-                        (item.route !== '/dashboard' && currentRoute.startsWith(item.route));
-        
-        return `
-          <button class="bottom-nav__item ${isActive ? 'bottom-nav__item--active' : ''}" 
-                  id="${item.id}"
-                  aria-label="${item.label}">
-            <span class="bottom-nav__icon">${item.icon}</span>
-            <span class="bottom-nav__label">${item.label}</span>
-            ${item.badge ? '<span class="bottom-nav__badge"></span>' : ''}
-          </button>
-        `;
-      }).join('')}
+      <div class="bottom-nav__inner">
+        ${items.map(item => {
+          // Active logic: exact match or home link for dashboard
+          const isActive = (item.route === '/dashboard' && currentRoute === '/dashboard') || 
+                          (item.route !== '/dashboard' && currentRoute.startsWith(item.route));
+          
+          return `
+            <button class="bottom-nav__item ${isActive ? 'bottom-nav__item--active' : ''}" 
+                    id="${item.id}"
+                    aria-label="${item.label}">
+              <span class="bottom-nav__icon">${item.icon}</span>
+              <span class="bottom-nav__label">${item.label}</span>
+              ${item.badge ? '<span class="bottom-nav__badge"></span>' : ''}
+            </button>
+          `;
+        }).join('')}
+      </div>
     </nav>
   `;
   
