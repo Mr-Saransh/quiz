@@ -1,0 +1,20 @@
+﻿node : DB ERROR: 
+At line:1 char:1
++ node test_courses_db.js 
+2>&1 | Out-File -FilePath 
+test_output.txt -En ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~
+    + CategoryInfo        
+      : NotSpecified: (D  
+  B ERROR: :String) [],   
+  RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+Invalid `prisma.course.fin
+dMany()` invocation:
+
+
+

@@ -2,8 +2,8 @@ import { navigate } from '../router.js';
 
 export function renderAdminLogin(container) {
   container.innerHTML = `
-    <div class="auth-page page-container" style="background: var(--off-white); min-height: 100dvh; display: flex; align-items: center; justify-content: center; padding: 24px;">
-      <div class="auth-card animate-fadeInUp" style="background: white; border-radius: 32px; padding: 40px; width: 100%; max-width: 400px; box-shadow: var(--shadow-2xl); border: 1px solid var(--gray-100);">
+    <div class="auth-page page-container" style="background: var(--off-white); min-height: 100dvh; display: flex; align-items: center; justify-content: center; padding: 16px;">
+      <div class="auth-card animate-fadeInUp p-mobile-4" style="background: white; border-radius: 32px; padding: 40px; width: 100%; max-width: 400px; box-shadow: var(--shadow-2xl); border: 1px solid var(--gray-100);">
         <div style="text-align: center; margin-bottom: 32px;">
           <div style="font-size: 48px; margin-bottom: 16px;">🔑</div>
           <h2 style="font-family: var(--font-heading); font-size: 28px; font-weight: 800; color: var(--gray-900);">Admin Portal</h2>

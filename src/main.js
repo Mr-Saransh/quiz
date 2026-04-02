@@ -39,6 +39,7 @@ registerRoute('/quiz', renderQuiz);
 registerRoute('/results/:id', renderReport);
 registerRoute('/leaderboard', renderLeaderboard);
 registerRoute('/profile', renderProfile);
+registerRoute('/profile/:id', renderProfile);
 registerRoute('/alerts', renderAlerts);
 registerRoute('/admin', renderAdmin);
 registerRoute('/admin-login', renderAdminLogin);

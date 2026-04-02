@@ -8,18 +8,54 @@ import { Chart, RadarController, RadialLinearScale, PointElement, LineElement, F
 
 Chart.register(RadarController, RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
 
-export async function renderProfile(container) {
-  if (!isLoggedIn()) { navigate('/auth'); return; }
+export async function renderProfile(container, params) {
+  const viewerId = params?.id;
+  const currentUserId = getUser()?.id || getUser()?.userId;
+  const isOwner = !viewerId || viewerId === currentUserId;
 
-  const user = getUser();
-  if (!user || (!user.id && !user.userId)) { clearUser(); navigate('/auth'); return; }
+  let user = null;
+  let latestResult = null;
 
-  // Sync user from API
-  fetch(`/api/auth/user/${user.id}`).then(r => {
-    if (!r.ok) { clearUser(); navigate('/auth'); }
-  }).catch(() => {});
-  
-  const latestResult = getLatestResult();
+  if (isOwner) {
+    if (!isLoggedIn()) { navigate('/auth'); return; }
+    user = getUser();
+    latestResult = getLatestResult();
+    
+    // Sync owner data in background
+    fetch(`/api/auth/user/${user.id}`).then(async r => {
+      if (r.ok) {
+        const data = await r.json();
+        setUser(data.user);
+      }
+    }).catch(() => {});
+  } else {
+    // Viewer Mode: Fetch public data
+    try {
+      const [userRes, resultsRes] = await Promise.all([
+        fetch(`/api/auth/user/${viewerId}`),
+        fetch(`/api/quiz/results/user/${viewerId}`)
+      ]);
+      
+      if (!userRes.ok) throw new Error('User not found');
+      
+      const userData = await userRes.json();
+      user = userData.user;
+      
+      const resultsData = await resultsRes.json();
+      latestResult = resultsData.results?.[0] || null;
+    } catch (err) {
+      container.innerHTML = `
+        <div class="page-container flex-center flex-col text-center" style="min-height:100dvh;gap:16px;padding:24px;">
+          <div style="font-size:64px;">👤</div>
+          <h2 style="font-family: var(--font-heading); font-weight: 800;">Persona Not Found</h2>
+          <p style="color: var(--gray-500);">This digital identification code is invalid or has been archived.</p>
+          <button class="btn btn--primary" onclick="window.location.hash='#/'">Return to Hub</button>
+        </div>
+      `;
+      return;
+    }
+  }
+
   const theme = user.themeColor || '#4F46E5';
   const personality = user.personalityType || 'The Explorer';
   const emoji = user.personalityEmoji || '🧭';
@@ -47,14 +83,16 @@ export async function renderProfile(container) {
             <div class="avatar-wrapper">
               <div style="position: absolute; inset: -20px; background: radial-gradient(circle, ${theme}44 0%, transparent 70%); filter: blur(25px); animation: pulse 3s infinite;"></div>
               
-              <div id="avatar-trigger" class="avatar-main">
-                  <img id="profile-preview-img" src="${user.profileImage || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.contact}`}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.05);"/>
+              <div id="avatar-trigger" class="avatar-main" style="${!isOwner ? 'cursor: default; transform: none;' : ''}">
+                  <img id="profile-preview-img" src="${user.profileImage || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.contact || user.id}`}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.05);"/>
                   <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.3)); pointer-events: none;"></div>
               </div>
               
-              <div class="avatar-edit-badge" id="avatar-edit-icon">
-                 🎨
-              </div>
+              ${isOwner ? `
+                <div class="avatar-edit-badge" id="avatar-edit-icon">
+                   🎨
+                </div>
+              ` : ''}
               
               <div class="avatar-emoji-badge" style="border: 2px solid ${theme};">
                  ${emoji}
@@ -216,39 +254,46 @@ export async function renderProfile(container) {
           </div>
         `}
 
-        <!-- Settings Section -->
+        <!-- Settings / Public CTA Section -->
         <div class="card animate-fadeInUp delay-5" style="border-radius: 40px; padding: 40px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-xl); background: white;">
           <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 36px;">
             <div style="width: 6px; height: 28px; background: var(--primary); border-radius: 10px;"></div>
-            <h3 style="font-weight: 800; font-size: 20px; color: var(--gray-900); font-family: var(--font-heading);">System Settings</h3>
+            <h3 style="font-weight: 800; font-size: 20px; color: var(--gray-900); font-family: var(--font-heading);">${isOwner ? 'System Settings' : 'Network Identity'}</h3>
           </div>
 
           <div style="display: grid; gap: 24px;">
             <div class="auth-input-group">
               <label style="font-weight: 800; font-size: 11px; margin-bottom: 12px; display:block; color:var(--gray-400); text-transform:uppercase; letter-spacing: 1.5px;">Legal Identity Name</label>
-              <input type="text" id="profile-name" class="input-field" placeholder="Full Name" value="${user.name || ''}" style="border: 2px solid var(--gray-100); border-radius: 20px; padding: 20px; font-weight: 700; font-size: 15px;" />
+              <input type="text" id="profile-name" class="input-field" placeholder="Full Name" value="${user.name || ''}" ${!isOwner ? 'readonly' : ''} style="border: 2px solid var(--gray-100); border-radius: 20px; padding: 20px; font-weight: 700; font-size: 15px; ${!isOwner ? 'background: #f8fafc;' : ''}" />
             </div>
 
             <div class="grid grid-2 grid-mobile-1" style="gap: 20px;">
               <div class="auth-input-group">
                 <label style="font-weight: 800; font-size: 11px; margin-bottom: 12px; display:block; color:var(--gray-400); text-transform:uppercase; letter-spacing: 1.5px;">Age / Class Tier</label>
-                <input type="text" id="profile-age" class="input-field" placeholder="18 / Expert" value="${user.ageClass || ''}" style="border: 2px solid var(--gray-100); border-radius: 20px; padding: 20px; font-weight: 700; font-size: 15px;" />
+                <input type="text" id="profile-age" class="input-field" placeholder="18 / Expert" value="${user.ageClass || ''}" ${!isOwner ? 'readonly' : ''} style="border: 2px solid var(--gray-100); border-radius: 20px; padding: 20px; font-weight: 700; font-size: 15px; ${!isOwner ? 'background: #f8fafc;' : ''}" />
               </div>
               <div class="auth-input-group">
                 <label style="font-weight: 800; font-size: 11px; margin-bottom: 12px; display:block; color:var(--gray-400); text-transform:uppercase; letter-spacing: 1.5px;">Location Origin</label>
-                <input type="text" id="profile-city" class="input-field" placeholder="City" value="${user.city || ''}" style="border: 2px solid var(--gray-100); border-radius: 20px; padding: 20px; font-weight: 700; font-size: 15px;" />
+                <input type="text" id="profile-city" class="input-field" placeholder="City" value="${user.city || ''}" ${!isOwner ? 'readonly' : ''} style="border: 2px solid var(--gray-100); border-radius: 20px; padding: 20px; font-weight: 700; font-size: 15px; ${!isOwner ? 'background: #f8fafc;' : ''}" />
               </div>
             </div>
 
-            <div class="auth-input-group" style="margin-bottom: 10px;">
-              <label style="font-weight: 800; font-size: 11px; margin-bottom: 12px; display:block; color:var(--gray-400); text-transform:uppercase; letter-spacing: 1.5px;">External Profile Media (URL)</label>
-              <input type="url" id="profile-image-url" class="input-field" placeholder="https://cloud.com/image.png" value="${user.profileImage || ''}" style="border: 2px solid var(--gray-100); border-radius: 20px; padding: 20px; font-weight: 500; font-family: monospace; font-size: 13px;" />
-            </div>
+            ${isOwner ? `
+              <div class="auth-input-group" style="margin-bottom: 10px;">
+                <label style="font-weight: 800; font-size: 11px; margin-bottom: 12px; display:block; color:var(--gray-400); text-transform:uppercase; letter-spacing: 1.5px;">External Profile Media (URL)</label>
+                <input type="url" id="profile-image-url" class="input-field" placeholder="https://cloud.com/image.png" value="${user.profileImage || ''}" style="border: 2px solid var(--gray-100); border-radius: 20px; padding: 20px; font-weight: 500; font-family: monospace; font-size: 13px;" />
+              </div>
+            ` : ''}
           </div>
 
           <div style="margin-top: 48px; display: flex; flex-direction: column; gap: 16px;">
-            <button id="profile-save-btn" class="btn btn--primary" style="padding: 24px; border-radius: 24px; font-weight: 900; font-size: 17px; width: 100%;">Sync Digital Record</button>
-            <button id="profile-logout-btn" style="padding: 12px; background: transparent; border: none; color: var(--red); font-weight: 800; font-size: 14px; cursor: pointer; transition: all 0.3s; opacity: 0.6;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">Terminate Current Session</button>
+            ${isOwner ? `
+              <button id="profile-save-btn" class="btn btn--primary" style="padding: 24px; border-radius: 24px; font-weight: 900; font-size: 17px; width: 100%;">Sync Digital Record</button>
+              <button id="profile-logout-btn" style="padding: 12px; background: transparent; border: none; color: var(--red); font-weight: 800; font-size: 14px; cursor: pointer; transition: all 0.3s; opacity: 0.6;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">Terminate Current Session</button>
+            ` : `
+              <button id="profile-cta-btn" class="btn btn--primary" style="padding: 24px; border-radius: 24px; font-weight: 900; font-size: 17px; width: 100%;">Discover Your Persona →</button>
+              <p style="text-align: center; font-size: 12px; color: var(--gray-400); font-weight: 600;">Join thousands uncovering their digital potential</p>
+            `}
           </div>
         </div>
       </div>
@@ -323,16 +368,13 @@ export async function renderProfile(container) {
 
   // Share functionality
   document.getElementById('profile-share')?.addEventListener('click', async () => {
-    const hasResult = !!latestResult;
-    const shareTitle = hasResult ? `My Dynamic Persona Profile` : 'Quiz App Digital Hub';
-    const shareText = hasResult 
+    const shareTitle = isOwner ? `My Dynamic Persona Profile` : `${user.name}'s Dynamic Persona`;
+    const shareText = isOwner 
       ? `I just discovered my personality type as ${user.personalityType} ${user.personalityEmoji}! Check out my full report.` 
-      : 'Explore your digital identity and talent potential on the Quiz App.';
+      : `Check out ${user.name}'s digital persona profile and discovery report!`;
     
-    // Always share the latest result URL if it exists, otherwise share the app home
-    const shareUrl = hasResult 
-      ? `${window.location.origin}${window.location.pathname}#/results/${latestResult.id}`
-      : `${window.location.origin}${window.location.pathname}`;
+    // Share the public profile URL
+    const shareUrl = `${window.location.origin}${window.location.pathname}#/profile/${user.id}`;
 
     try {
       if (navigator.share) {
@@ -341,7 +383,7 @@ export async function renderProfile(container) {
           text: shareText,
           url: shareUrl
         });
-        showToast('Profile shared! ✨', 'success');
+        showToast('Profile link ready to share! ✨', 'success');
       } else {
         await navigator.clipboard.writeText(shareUrl);
         showToast('Profile link copied to clipboard! 📋', 'success');
@@ -349,9 +391,12 @@ export async function renderProfile(container) {
     } catch (err) {
       if (err.name !== 'AbortError') {
         showToast('Sharing failed', 'error');
-        console.error('Share error:', err);
       }
     }
+  });
+
+  document.getElementById('profile-cta-btn')?.addEventListener('click', () => {
+    navigate('/quiz');
   });
 
   // Init Radar Chart if result exists

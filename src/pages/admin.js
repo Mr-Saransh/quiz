@@ -50,9 +50,9 @@ export async function renderAdmin(container, params) {
             <div class="admin-nav-item ${activeTab === 'events' ? 'active' : ''}" data-tab="events">Events</div>
             <div class="admin-nav-item ${activeTab === 'courses' ? 'active' : ''}" data-tab="courses">Courses</div>
           </div>
-          <div style="display: flex; gap: 12px; align-items: center;">
-            <button id="admin-home" style="background: var(--gray-50); border: none; padding: 8px 16px; border-radius: 10px; font-weight: 700; cursor: pointer; color: var(--gray-600);">Dashboard</button>
-            <button id="admin-logout" style="background: none; border: none; color: var(--primary); font-weight: 700; cursor: pointer;">Logout</button>
+          <div class="admin-nav-actions">
+            <button id="admin-home" class="admin-action-btn">Dashboard</button>
+            <button id="admin-logout" class="admin-action-btn admin-action-btn--primary">Logout</button>
           </div>
         </nav>
 
@@ -60,14 +60,14 @@ export async function renderAdmin(container, params) {
           
           <!-- SECTION: ENGAGEMENT -->
           <div class="admin-section ${activeTab === 'engagement' ? 'active' : ''}" id="section-engagement">
-             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
-               <div class="glass-card" style="background: white; padding: 32px; border-radius: 24px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-sm);">
+             <div class="admin-grid-engagement">
+               <div class="glass-card p-mobile-4" style="background: white; border-radius: 24px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-sm);">
                   <div style="font-size: 11px; text-transform: uppercase; font-weight: 800; color: var(--gray-400); letter-spacing: 1px;">User Activity</div>
                   <h3 style="font-family: var(--font-heading); font-size: 32px; font-weight: 800; margin-top: 8px;">${events.length * 42 }</h3>
                   <p style="color: var(--gray-500); font-size: 13px; margin-top: 4px;">Total interactions this month</p>
                   <button id="admin-export-btn" style="margin-top: 24px; width: 100%; border: none; padding: 14px; border-radius: 14px; background: #059669; color: white; font-weight: 800; cursor: pointer;">📥 Export User Database (CSV)</button>
                </div>
-               <div class="glass-card" style="background: white; padding: 32px; border-radius: 24px; border: 1px solid var(--gray-100);">
+               <div class="glass-card p-mobile-4" style="background: white; border-radius: 24px; border: 1px solid var(--gray-100);">
                   <div style="font-size: 11px; text-transform: uppercase; font-weight: 800; color: var(--gray-400); letter-spacing: 1px;">Course Enrollments</div>
                   <h3 style="font-family: var(--font-heading); font-size: 32px; font-weight: 800; margin-top: 8px;">${adminCourses.reduce((acc, c) => acc + (c._count?.enrollments || 0), 0)}</h3>
                   <p style="color: var(--gray-500); font-size: 13px; margin-top: 4px;">Active student base</p>
@@ -80,28 +80,28 @@ export async function renderAdmin(container, params) {
 
           <!-- SECTION: EVENTS -->
           <div class="admin-section ${activeTab === 'events' ? 'active' : ''}" id="section-events">
-            <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 32px;">
-              <div class="glass-card" style="background: white; padding: 32px; border-radius: 28px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-md);">
+            <div class="admin-grid-2-to-1">
+              <div class="glass-card p-mobile-4" style="background: white; border-radius: 28px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-md);">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                   <h2 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800;">Published Events</h2>
                   <span style="font-size: 11px; font-weight: 700; color: var(--primary); background: var(--primary-lightest); padding: 4px 10px; border-radius: 100px;">${events.length} Live</span>
                 </div>
                 <div style="display: grid; gap: 12px;">
                   ${events.map(ev => `
-                    <div style="background: #f8fafc; border: 1px solid #f1f5f9; padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center;">
-                      <div>
-                        <h4 style="font-weight: 800; font-family: var(--font-heading);">${ev.title}</h4>
-                        <span style="font-size: 11px; color: #94a3b8;">Created: ${new Date(ev.createdAt).toLocaleDateString()}</span>
-                      </div>
-                      <div style="display: flex; gap: 8px;">
-                        <button class="btn-alert-modal" data-id="${ev.id}" data-title="${ev.title}" style="background: white; border: 1px solid #e2e8f0; padding: 6px 14px; border-radius: 10px; font-size: 11px; font-weight: 800; color: var(--primary); cursor: pointer;">Broadcast</button>
-                        <button class="btn-delete-comp" data-id="${ev.id}" style="background: #fee2e2; color: #ef4444; border: none; padding: 6px 14px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer;">Remove</button>
-                      </div>
-                    </div>
+                    <div class="admin-list-item" style="padding: 16px;">
+                       <div>
+                         <h4 style="font-weight: 800; font-family: var(--font-heading);">${ev.title}</h4>
+                         <span style="font-size: 11px; color: #94a3b8;">Created: ${new Date(ev.createdAt).toLocaleDateString()}</span>
+                       </div>
+                       <div class="actions-row">
+                         <button class="btn-alert-modal" data-id="${ev.id}" data-title="${ev.title}" style="background: white; border: 1px solid #e2e8f0; padding: 6px 14px; border-radius: 10px; font-size: 11px; font-weight: 800; color: var(--primary); cursor: pointer;">Broadcast</button>
+                         <button class="btn-delete-comp" data-id="${ev.id}" style="background: #fee2e2; color: #ef4444; border: none; padding: 6px 14px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer;">Remove</button>
+                       </div>
+                     </div>
                   `).join('')}
                 </div>
               </div>
-              <div class="glass-card" style="background: white; padding: 32px; border-radius: 28px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-md);">
+              <div class="glass-card p-mobile-4" style="background: white; border-radius: 28px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-md);">
                 <h2 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; margin-bottom: 24px;">Launch Event</h2>
                 <div style="display: grid; gap: 12px;">
                   <input type="text" id="comp-title" class="input-field" placeholder="Event Name" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;"/>
@@ -117,8 +117,8 @@ export async function renderAdmin(container, params) {
           <div class="admin-section ${activeTab === 'courses' ? 'active' : ''}" id="section-courses">
             ${managingLessonsFor ? `
               <!-- LESSON MANAGEMENT VIEW -->
-              <div class="glass-card" style="background: white; padding: 32px; border-radius: 28px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-lg);">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px;">
+              <div class="glass-card p-mobile-4" style="background: white; border-radius: 28px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-lg);">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
                   <button id="back-to-courses" style="background: none; border: none; font-size: 13px; font-weight: 800; color: #64748b; cursor: pointer; display: flex; align-items: center; gap: 8px;">
                     <span style="font-size: 18px;">←</span> BACK TO COURSES
                   </button>
@@ -144,31 +144,31 @@ export async function renderAdmin(container, params) {
               </div>
             ` : `
               <!-- COURSE LIST VIEW -->
-              <div style="display: grid; grid-template-columns: 1fr 400px; gap: 32px; align-items: start;">
-                <div class="glass-card" style="background: white; padding: 32px; border-radius: 28px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-md);">
+              <div class="admin-grid-course" style="align-items: start;">
+                <div class="glass-card p-mobile-4" style="background: white; border-radius: 28px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-md);">
                   <h2 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; margin-bottom: 24px;">Course Ecosystem</h2>
                   <div style="display: grid; gap: 16px;">
                     ${adminCourses.map(c => `
-                      <div style="background: #fdfcfe; border: 1px solid #f3e8ff; padding: 20px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center;">
-                        <div style="flex: 1;">
-                          <div style="display: flex; align-items: center; gap: 8px;">
-                            <h4 style="font-weight: 800; font-family: var(--font-heading); font-size: 16px;">${c.title}</h4>
-                            <span style="font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 100px; background: ${c.published ? '#dcfce7' : '#fef3c7'}; color: ${c.published ? '#166534' : '#92400e'}; text-transform: uppercase;">${c.published ? 'Live' : 'Draft'}</span>
-                          </div>
-                          <div style="margin-top: 6px; font-size: 12px; color: #a855f7; font-weight: 700;">${c._count?.lessons || 0} Lessons • ${c._count?.enrollments || 0} Enrolled</div>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                          <button class="btn-manage-lessons" data-id="${c.id}" style="background: #f3f4f6; color: #374151; border: none; padding: 8px 16px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer;">Manage Content</button>
-                          <button class="btn-edit-course" data-json='${JSON.stringify(c)}' style="background: white; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 10px; font-size: 11px; font-weight: 800; color: #6b7280; cursor: pointer;">Edit Settings</button>
-                          <button class="btn-delete-course" data-id="${c.id}" style="background: #fff1f2; color: #ef4444; border: none; padding: 8px 16px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer;">Delete</button>
-                        </div>
-                      </div>
+                      <div class="admin-list-item">
+                         <div style="flex: 1;">
+                           <div style="display: flex; align-items: center; gap: 8px;">
+                             <h4 style="font-weight: 800; font-family: var(--font-heading); font-size: 16px;">${c.title}</h4>
+                             <span style="font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 100px; background: ${c.published ? '#dcfce7' : '#fef3c7'}; color: ${c.published ? '#166534' : '#92400e'}; text-transform: uppercase;">${c.published ? 'Live' : 'Draft'}</span>
+                           </div>
+                           <div style="margin-top: 6px; font-size: 12px; color: #a855f7; font-weight: 700;">${c._count?.lessons || 0} Lessons • ${c._count?.enrollments || 0} Enrolled</div>
+                         </div>
+                         <div class="actions-row">
+                           <button class="btn-manage-lessons" data-id="${c.id}" style="background: #f3f4f6; color: #374151; border: none; padding: 8px 16px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer;">Manage Content</button>
+                           <button class="btn-edit-course" data-json='${JSON.stringify(c)}' style="background: white; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 10px; font-size: 11px; font-weight: 800; color: #6b7280; cursor: pointer;">Edit Settings</button>
+                           <button class="btn-delete-course" data-id="${c.id}" style="background: #fff1f2; color: #ef4444; border: none; padding: 8px 16px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer;">Delete</button>
+                         </div>
+                       </div>
                     `).join('')}
                     ${adminCourses.length === 0 ? '<p style="text-align: center; color: #94a3b8; font-style: italic;">No courses found.</p>' : ''}
                   </div>
                 </div>
 
-                <div class="glass-card" style="background: white; padding: 32px; border-radius: 28px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-md);">
+                <div class="glass-card p-mobile-4" style="background: white; border-radius: 28px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-md);">
                   <h2 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; margin-bottom: 24px;">Launch Portal</h2>
                   <div style="display: grid; gap: 12px;">
                     <input type="hidden" id="course-id" value=""/>
@@ -193,8 +193,8 @@ export async function renderAdmin(container, params) {
       </div>
 
       <!-- BROADCAST OVERLAY -->
-      <div id="alert-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center; padding: 24px;">
-         <div style="background: white; border-radius: 28px; padding: 40px; width: 100%; max-width: 500px; box-shadow: var(--shadow-2xl);">
+      <div id="alert-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center; padding: 16px;">
+         <div style="background: white; border-radius: 28px; padding: 32px; width: 100%; max-width: 500px; box-shadow: var(--shadow-2xl);" class="p-mobile-4">
             <h2 id="modal-comp-title" style="font-family: var(--font-heading); font-weight: 800; font-size: 24px; margin-bottom: 8px;">Broadcast</h2>
             <p style="color: var(--gray-500); font-size: 14px; margin-bottom: 24px; font-weight: 500;">Message will be sent to all enrolled participants via their dashboard.</p>
             <div style="display: grid; gap: 16px;">

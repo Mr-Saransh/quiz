@@ -225,7 +225,6 @@ export async function renderCourses(container) {
                 <div class="course-card">
                   <div class="course-thumbnail">
                     ${course.thumbnail ? `<img src="${course.thumbnail}" alt="${course.title}">` : `<div style="height:100%; display:flex; align-items:center; justify-content:center; background:var(--gray-100); color:var(--gray-400); font-weight:800;">NO PREVIEW</div>`}
-                    <span class="course-badge">Ecosystem</span>
                   </div>
                   <div class="course-content">
                     <div class="course-meta">

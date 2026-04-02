@@ -8,7 +8,7 @@ export function renderNavbar() {
   const currentRoute = getCurrentRoute();
   
   // Hide navbar on certain pages
-  const HIDDEN_ROUTES = ['/', '/auth', '/quiz'];
+  const HIDDEN_ROUTES = ['/', '/auth', '/quiz', '/admin', '/admin-login'];
   if (HIDDEN_ROUTES.includes(currentRoute) || currentRoute.startsWith('/quiz')) {
     container.innerHTML = '';
     return;
