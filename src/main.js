@@ -9,6 +9,7 @@ import './styles/report.css';
 import './styles/leaderboard.css';
 import './styles/profile.css';
 import './styles/courses.css';
+import './styles/admin-layout.css';
 
 import { registerRoute, initRouter } from './router.js';
 import { initStorage } from './utils/storage.js';

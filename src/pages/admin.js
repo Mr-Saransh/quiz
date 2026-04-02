@@ -8,15 +8,6 @@ export async function renderAdmin(container, params) {
     return; 
   }
 
-  // Load Admin CSS
-  if (!document.getElementById('admin-layout-css')) {
-    const link = document.createElement('link');
-    link.id = 'admin-layout-css';
-    link.rel = 'stylesheet';
-    link.href = '/src/styles/admin-layout.css';
-    document.head.appendChild(link);
-  }
-
   let events = [];
   let adminCourses = [];
   try {

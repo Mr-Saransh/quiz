@@ -4,9 +4,12 @@ import { apiSetProfile } from '../utils/api.js';
 import { showToast } from '../components/toast.js';
 import { formatDate } from '../utils/helpers.js';
 import { CATEGORY_COLORS, CATEGORY_EMOJIS, CATEGORY_LABELS } from '../engine/scoring.js';
-import { Chart, RadarController, RadialLinearScale, PointElement, LineElement, Filler, Tooltip } from 'chart.js';
+import { CATEGORIES } from '../data/questions.js';
+import { Chart, registerables } from 'chart.js';
 
-Chart.register(RadarController, RadialLinearScale, PointElement, LineElement, Filler, Tooltip);
+Chart.register(...registerables);
+
+let profileChartInstance = null;
 
 export async function renderProfile(container, params) {
   const viewerId = params?.id;
@@ -440,10 +443,14 @@ function initRadarChart(result) {
   const canvas = document.getElementById('profile-radar-chart');
   if (!canvas) return;
 
+  if (profileChartInstance) {
+    profileChartInstance.destroy();
+  }
+
   const labels = Object.keys(result.categoryScores).map(k => result.categoryLabels[k]);
   const data = Object.values(result.categoryScores);
 
-  new Chart(canvas, {
+  profileChartInstance = new Chart(canvas, {
     type: 'radar',
     data: {
       labels,
