@@ -38,7 +38,9 @@ export async function renderProfile(container) {
                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
             </button>
             <span style="font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; letter-spacing: 3px; font-size: 11px; opacity: 0.6;">Digital Persona Hub</span>
-            <div style="width: 44px;"></div>
+            <button id="profile-share" class="glass-card flex-center" style="width: 44px; height: 44px; border-radius: 14px; color: white; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);">
+               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            </button>
           </div>
 
           <div class="flex flex-col items-center text-center animate-fadeInUp">
@@ -318,6 +320,39 @@ export async function renderProfile(container) {
 
   document.getElementById('profile-back')?.addEventListener('click', () => { navigate('/dashboard'); });
   document.getElementById('profile-take-test')?.addEventListener('click', () => { navigate('/quiz'); });
+
+  // Share functionality
+  document.getElementById('profile-share')?.addEventListener('click', async () => {
+    const hasResult = !!latestResult;
+    const shareTitle = hasResult ? `My Dynamic Persona Profile` : 'Quiz App Digital Hub';
+    const shareText = hasResult 
+      ? `I just discovered my personality type as ${user.personalityType} ${user.personalityEmoji}! Check out my full report.` 
+      : 'Explore your digital identity and talent potential on the Quiz App.';
+    
+    // Always share the latest result URL if it exists, otherwise share the app home
+    const shareUrl = hasResult 
+      ? `${window.location.origin}${window.location.pathname}#/results/${latestResult.id}`
+      : `${window.location.origin}${window.location.pathname}`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: shareTitle,
+          text: shareText,
+          url: shareUrl
+        });
+        showToast('Profile shared! ✨', 'success');
+      } else {
+        await navigator.clipboard.writeText(shareUrl);
+        showToast('Profile link copied to clipboard! 📋', 'success');
+      }
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        showToast('Sharing failed', 'error');
+        console.error('Share error:', err);
+      }
+    }
+  });
 
   // Init Radar Chart if result exists
   if (latestResult) {
