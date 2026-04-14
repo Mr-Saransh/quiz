@@ -185,7 +185,7 @@ export async function renderCourses(container) {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_1234567890', 
         amount: order.amount,
         currency: 'INR',
-        name: 'Find Your Spark',
+        name: 'Apni Vidya',
         description: `Enrollment for ${title}`,
         order_id: order.id,
         handler: async function (response) {

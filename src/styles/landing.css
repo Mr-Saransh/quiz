@@ -1,4 +1,4 @@
-/* ===== Landing Page (Exact Find Your Spark) ===== */
+/* ===== Landing Page (Apni Vidya Branding) ===== */
 
 .landing {
   min-height: 100vh;
@@ -459,13 +459,203 @@
 
 .landing__note-sparkle { font-size: 20px; }
 
-/* ===== Footer ===== */
-.landing__footer {
-  padding: 60px 0;
-  text-align: center;
-  border-top: 1px solid rgba(0,0,0,0.06);
-  background: rgba(255, 255, 255, 0.3);
+/* ===== New Footer (Apni Vidya Premium) ===== */
+.landing__footer-new {
+  background: #0f172a;
+  color: #94a3b8;
+  padding: 100px 0 40px;
+  border-top: 1px solid #1e293b;
+  font-family: var(--font-body);
 }
 
-.landing__footer-text { font-size: 14px; color: #6D6284; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+.landing__footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  margin-bottom: 80px;
+}
+
+@media (min-width: 1024px) {
+  .footer-brand {
+    grid-column: span 1;
+  }
+}
+
+.footer-logo {
+  width: 56px;
+  height: 56px;
+  background: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 28px;
+  color: #0f172a;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.footer-brand-name {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 800;
+  color: white;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.footer-brand-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 320px;
+  margin-bottom: 32px;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 12px;
+}
+
+.social-icon {
+  width: 42px;
+  height: 42px;
+  background: #1e293b;
+  color: #94a3b8;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.social-icon:hover {
+  background: #2563eb;
+  color: white;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4);
+}
+
+.footer-heading {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 24px;
+  font-family: var(--font-heading);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-heading::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  background: #3b82f6;
+  border-radius: 50%;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-links a {
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #3b82f6;
+  padding-left: 8px;
+}
+
+.footer-contact-info {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.footer-contact-info li {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  align-items: center;
+}
+
+.footer-contact-info .icon {
+  width: 36px;
+  height: 36px;
+  background: #1e293b;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.3s ease;
+}
+
+.footer-contact-info li:hover .icon {
+  background: rgba(37, 99, 235, 0.2);
+}
+
+.footer-contact-info span:not(.icon) {
+  transition: color 0.3s ease;
+}
+
+.footer-contact-info li:hover span:not(.icon) {
+  color: white;
+}
+
+.landing__footer-bottom {
+  border-top: 1px solid #1e293b;
+  padding-top: 40px;
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+  display: flex;
+  flex-direction: column;
+  md-flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .landing__footer-bottom {
+    flex-direction: row;
+  }
+}
+
+.landing__footer-bottom p {
+  color: #64748b;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@keyframes pulse-heart {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.animate-pulse {
+  display: inline-block;
+  animation: pulse-heart 2s ease-in-out infinite;
+}
+
 
