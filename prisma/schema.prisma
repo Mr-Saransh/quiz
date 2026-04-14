@@ -9,11 +9,14 @@ datasource db {
 model User {
   id               String       @id @default(cuid())
   name             String?
-  ageClass         String?
+  age              String?
+  studentClass     String?
+  ageClass         String?      // Keeping for backward compatibility if needed, but we'll use age and studentClass
   city             String?
   address          String?
   profileImage     String?
   contact          String       @unique
+  email            String?      @unique
   authMode         String
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
@@ -28,7 +31,19 @@ model User {
   themeColor       String?
   personalityDesc  String?
   primaryTrait     String?
+  
+  // Auth fields
+  password         String?
 }
+
+model Otp {
+  id        String   @id @default(cuid())
+  email     String
+  code      String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
 
 model Competition {
   id          String   @id @default(cuid())
@@ -120,4 +135,24 @@ model QuizResult {
   answers          String
   createdAt        DateTime @default(now())
   user             User     @relation(fields: [userId], references: [id])
+}
+
+model Mentor {
+  id          String   @id @default(uuid())
+  name        String
+  photo       String?
+  description String
+  iitBranch   String
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CouponAttempt {
+  id          String   @id @default(uuid())
+  phone       String   @unique
+  couponCode  String   @unique
+  score       Int
+  used        Boolean  @default(false)
+  createdAt   DateTime @default(now())
 }

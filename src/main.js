@@ -10,6 +10,8 @@ import './styles/leaderboard.css';
 import './styles/profile.css';
 import './styles/courses.css';
 import './styles/admin-layout.css';
+import './styles/combo-course.css';
+import './styles/course-assessment.css';
 
 import { registerRoute, initRouter } from './router.js';
 import { initStorage } from './utils/storage.js';
@@ -28,6 +30,7 @@ import { renderAdminLogin } from './pages/admin-login.js';
 import { renderEvents } from './pages/events.js';
 import { renderCourses } from './pages/courses.js';
 import { renderCoursePlayer } from './pages/course-player.js';
+import { renderCourseAssessment } from './pages/course-assessment.js';
 
 // Initialize storage (default leaderboard)
 initStorage();
@@ -47,6 +50,7 @@ registerRoute('/admin-login', renderAdminLogin);
 registerRoute('/events', renderEvents);
 registerRoute('/courses', renderCourses);
 registerRoute('/course/:courseId', renderCoursePlayer);
+registerRoute('/course-assessment', renderCourseAssessment);
 
 // Start router
 initRouter();
@@ -57,3 +61,4 @@ window.addEventListener('hashchange', () => {
     // Small delay to ensure route hash is updated in router
     setTimeout(renderNavbar, 50);
 });
+

@@ -9,6 +9,8 @@ import competitionRoutes from './routes/competitions.js';
 import courseRoutes from './routes/courses.js';
 import adminRoutes from './routes/admin.js';
 import paymentRoutes from './routes/payment.js';
+import assessmentRoutes from './routes/assessment.js';
+import mentorRoutes from './routes/mentors.js';
 
 const app = express();
 const PORT = 3002;
@@ -38,15 +40,10 @@ app.use('/api/stats', statsRoutes);
 app.use('/api/competitions', competitionRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use('/api/assessment', assessmentRoutes);
+app.use('/api/mentors', mentorRoutes);
 
 app.use('/api/admin', adminRoutes);
-
-app.use('/api/admin', adminRoutes);
-
-// Health check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
-});
 
 // Handle running directly (local dev)
 if (process.env.NODE_ENV !== 'production') {

@@ -18,7 +18,7 @@ const razorpay = new Razorpay({
 
 // Create a Razorpay Order
 router.post('/order', async (req, res) => {
-  const { courseId, userId } = req.body;
+  const { courseId, userId, couponCode } = req.body;
 
   if (!courseId || !userId) {
     return res.status(400).json({ error: 'courseId and userId are required' });
@@ -34,22 +34,38 @@ router.post('/order', async (req, res) => {
       return res.status(404).json({ error: 'Course not found' });
     }
 
-    // 2. Prepare Order Options
+    // 2. Calculate final price (with optional coupon discount)
+    let finalPrice = course.price;
+    let appliedCoupon = null;
+
+    if (couponCode) {
+      const couponAttempt = await prisma.couponAttempt.findUnique({
+        where: { couponCode: couponCode.trim().toUpperCase() }
+      });
+
+      if (couponAttempt && !couponAttempt.used) {
+        finalPrice = Math.max(0, finalPrice - 3000);
+        appliedCoupon = couponCode.trim().toUpperCase();
+      }
+    }
+
+    // 3. Prepare Order Options
     // Razorpay receipt MUST be under 40 characters
     const receipt = `rcpt_${Date.now()}_${courseId.slice(-8)}`; 
     
     const options = {
-      amount: Math.round(course.price * 100), // Convert to paise
+      amount: Math.round(finalPrice * 100), // Convert to paise
       currency: 'INR',
       receipt: receipt,
       notes: {
         courseId: courseId,
         userId: userId,
         courseName: course.title,
+        couponCode: appliedCoupon || 'none',
       }
     };
 
-    // 3. Create Order
+    // 4. Create Order
     const key_id = process.env.RAZORPAY_KEY_ID || 'rzp_test_1234567890';
     
     // Check for mock key to allow testing without real credentials
@@ -96,7 +112,8 @@ router.post('/verify', async (req, res) => {
     razorpay_payment_id, 
     razorpay_signature, 
     userId, 
-    courseId 
+    courseId,
+    couponCode
   } = req.body;
 
   try {
@@ -128,14 +145,26 @@ router.post('/verify', async (req, res) => {
       }
     });
 
-    // 3. Send Confirmation Email (Fire and Forget)
+    // 3. Mark coupon as used if one was applied
+    if (couponCode) {
+      try {
+        await prisma.couponAttempt.update({
+          where: { couponCode: couponCode.trim().toUpperCase() },
+          data: { used: true }
+        });
+      } catch (couponErr) {
+        console.error('Coupon marking error (non-critical):', couponErr);
+      }
+    }
+
+    // 4. Send Confirmation Email (Fire and Forget)
     try {
       const user = await prisma.user.findUnique({ where: { id: userId } });
       const course = await prisma.course.findUnique({ where: { id: courseId } });
       
       if (user && course) {
         sendPurchaseConfirmation({
-          email: user.contact, // Using contact field as email if available
+          email: user.contact,
           name: user.name || 'Student',
           courseTitle: course.title,
           amount: course.price,

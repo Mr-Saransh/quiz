@@ -10,12 +10,13 @@ export function renderDashboard(container) {
   const user = getUser();
   if (!user || (!user.id && !user.userId)) { clearUser(); navigate('/auth'); return; }
   
+  // Validate session against DB — if user was deleted (e.g. after reset), log out
   fetch(`/api/auth/user/${user.id}`).then(r => {
     if (!r.ok) {
       clearUser();
       navigate('/auth');
     }
-  }).catch(() => {});
+  }).catch(() => { /* network error — allow offline use */ });
 
   const latest = getLatestResult();
   const initials = getInitials(user.name);

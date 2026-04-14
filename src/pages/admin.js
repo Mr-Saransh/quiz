@@ -10,14 +10,17 @@ export async function renderAdmin(container, params) {
 
   let events = [];
   let adminCourses = [];
+  let adminMentors = [];
   try {
-    const [eventsRes, coursesRes] = await Promise.all([
+    const [eventsRes, coursesRes, mentorsRes] = await Promise.all([
       fetch('/api/competitions'),
-      fetch('/api/admin/courses')
+      fetch('/api/admin/courses'),
+      fetch('/api/admin/mentors')
     ]);
     const eventsData = await eventsRes.json();
     events = eventsData.competitions || [];
     adminCourses = await coursesRes.json();
+    adminMentors = await mentorsRes.json();
   } catch (e) {
     console.error('Failed to fetch admin data', e);
   }
@@ -25,6 +28,7 @@ export async function renderAdmin(container, params) {
   // State management for tabs
   let activeTab = 'events'; 
   let editingCourse = null;
+  let editingMentor = null;
   let managingLessonsFor = null; // course object
 
   const renderContent = () => {
@@ -40,6 +44,7 @@ export async function renderAdmin(container, params) {
             <div class="admin-nav-item ${activeTab === 'engagement' ? 'active' : ''}" data-tab="engagement">Engagement</div>
             <div class="admin-nav-item ${activeTab === 'events' ? 'active' : ''}" data-tab="events">Events</div>
             <div class="admin-nav-item ${activeTab === 'courses' ? 'active' : ''}" data-tab="courses">Courses</div>
+            <div class="admin-nav-item ${activeTab === 'mentors' ? 'active' : ''}" data-tab="mentors">Mentors</div>
           </div>
           <div class="admin-nav-actions">
             <button id="admin-home" class="admin-action-btn">Dashboard</button>
@@ -179,6 +184,53 @@ export async function renderAdmin(container, params) {
                 </div>
               </div>
             `}
+          </div>
+
+          <!-- SECTION: MENTORS -->
+          <div class="admin-section ${activeTab === 'mentors' ? 'active' : ''}" id="section-mentors">
+            <div class="admin-grid-course" style="align-items: start;">
+              <div class="glass-card p-mobile-4" style="background: white; border-radius: 28px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-md);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                  <h2 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800;">IITian Mentors</h2>
+                  <span style="font-size: 11px; font-weight: 700; color: #8B5CF6; background: #EDE9FE; padding: 4px 10px; border-radius: 100px;">${adminMentors.length} Active</span>
+                </div>
+                <div style="display: grid; gap: 16px;">
+                  ${adminMentors.map(m => `
+                    <div class="admin-list-item" style="padding: 16px;">
+                      <div style="display: flex; align-items: center; gap: 14px; flex: 1;">
+                        <div style="width: 56px; height: 56px; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, #EDE9FE, #E0F2FE); flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                          ${m.photo ? `<img src="${m.photo}" alt="${m.name}" style="width: 100%; height: 100%; object-fit: cover;" />` : '<span style="font-size: 28px;">👨‍🏫</span>'}
+                        </div>
+                        <div>
+                          <h4 style="font-weight: 800; font-family: var(--font-heading); font-size: 15px;">${m.name}</h4>
+                          <div style="font-size: 11px; font-weight: 700; color: #8B5CF6; margin-top: 2px;">🏛️ ${m.iitBranch}</div>
+                          <p style="font-size: 11px; color: #94a3b8; margin-top: 4px; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${m.description}</p>
+                        </div>
+                      </div>
+                      <div class="actions-row">
+                        <button class="btn-edit-mentor" data-json='${JSON.stringify(m)}' style="background: white; border: 1px solid #e2e8f0; padding: 6px 14px; border-radius: 10px; font-size: 11px; font-weight: 800; color: #6b7280; cursor: pointer;">Edit</button>
+                        <button class="btn-delete-mentor" data-id="${m.id}" style="background: #fff1f2; color: #e11d48; border: none; padding: 6px 14px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer;">Delete</button>
+                      </div>
+                    </div>
+                  `).join('')}
+                  ${adminMentors.length === 0 ? '<p style="text-align: center; color: #94a3b8; padding: 40px; font-style: italic;">No mentors added yet. Add your first IITian mentor!</p>' : ''}
+                </div>
+              </div>
+
+              <div class="glass-card p-mobile-4" style="background: white; border-radius: 28px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-md);">
+                <h2 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; margin-bottom: 24px;">${editingMentor ? '✏️ Edit Mentor' : '➕ Add Mentor'}</h2>
+                <div style="display: grid; gap: 12px;">
+                  <input type="hidden" id="mentor-id" value="${editingMentor?.id || ''}"/>
+                  <input type="text" id="mentor-name" placeholder="Mentor Name" value="${editingMentor?.name || ''}" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;"/>
+                  <input type="text" id="mentor-iit" placeholder="IIT Branch (e.g. IIT Delhi - CS)" value="${editingMentor?.iitBranch || ''}" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;"/>
+                  <input type="text" id="mentor-photo" placeholder="Photo URL (optional)" value="${editingMentor?.photo || ''}" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;"/>
+                  <textarea id="mentor-desc" placeholder="Brief description about the mentor..." style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; min-height: 80px; resize: none; font-weight: 600;">${editingMentor?.description || ''}</textarea>
+                  <input type="number" id="mentor-order" placeholder="Display Order (1, 2, 3...)" value="${editingMentor?.order || 0}" style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; font-weight: 700;"/>
+                  <button id="admin-mentor-btn" class="btn" style="padding: 16px; border-radius: 14px; background: #8B5CF6; color: white; font-weight: 900; border: none; cursor: pointer; margin-top: 12px;">${editingMentor ? 'Update Mentor →' : 'Add Mentor →'}</button>
+                  ${editingMentor ? '<button id="btn-cancel-mentor-edit" style="background: none; border: none; font-weight: 700; color: #94a3b8; font-size: 12px; cursor: pointer; margin-top: 8px;">Cancel Edit</button>' : ''}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -354,8 +406,6 @@ export async function renderAdmin(container, params) {
           body: JSON.stringify({ id, courseId: managingLessonsFor.id, title, description, youtubeVideoId, order })
         });
         if (res.ok) {
-          const updatedLesson = await res.json();
-          // Update local state and re-render
           const resFresh = await fetch('/api/admin/courses');
           adminCourses = await resFresh.json();
           managingLessonsFor = adminCourses.find(c => c.id === managingLessonsFor.id);
@@ -388,6 +438,59 @@ export async function renderAdmin(container, params) {
             managingLessonsFor = adminCourses.find(c => c.id === managingLessonsFor.id);
             renderContent();
           }
+        } catch (e) { }
+      });
+    });
+
+    // ===== MENTOR HANDLERS =====
+    document.getElementById('admin-mentor-btn')?.addEventListener('click', async () => {
+      const id = document.getElementById('mentor-id').value;
+      const name = document.getElementById('mentor-name').value.trim();
+      const iitBranch = document.getElementById('mentor-iit').value.trim();
+      const photo = document.getElementById('mentor-photo').value.trim();
+      const description = document.getElementById('mentor-desc').value.trim();
+      const order = document.getElementById('mentor-order').value;
+
+      if (!name || !iitBranch || !description) {
+        alert('Name, IIT Branch, and Description are required.');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/admin/mentors', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: id || undefined, name, photo, description, iitBranch, order })
+        });
+        if (res.ok) {
+          editingMentor = null;
+          renderAdmin(container);
+        }
+      } catch (e) {
+        alert('Failed to save mentor');
+      }
+    });
+
+    document.querySelectorAll('.btn-edit-mentor').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mentor = JSON.parse(btn.dataset.json);
+        editingMentor = mentor;
+        activeTab = 'mentors';
+        renderContent();
+      });
+    });
+
+    document.getElementById('btn-cancel-mentor-edit')?.addEventListener('click', () => {
+      editingMentor = null;
+      renderContent();
+    });
+
+    document.querySelectorAll('.btn-delete-mentor').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('Delete this mentor?')) return;
+        try {
+          const res = await fetch(`/api/admin/mentors/${btn.dataset.id}`, { method: 'DELETE' });
+          if (res.ok) renderAdmin(container);
         } catch (e) { }
       });
     });

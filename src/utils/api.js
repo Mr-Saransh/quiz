@@ -30,12 +30,41 @@ async function request(path, options = {}) {
   return data;
 }
 
-export async function apiRegisterBasic(name, ageClass, contact) {
-  return request('/auth/register-basic', {
+export async function apiSendEmailOTP(email) {
+  return request('/auth/request-otp', {
     method: 'POST',
-    body: { name, ageClass, contact },
+    body: { email },
   });
 }
+
+export async function apiVerifyEmailOTP(email, code) {
+  return request('/auth/verify-otp', {
+    method: 'POST',
+    body: { email, code },
+  });
+}
+
+export async function apiRegisterBasic(name, age, studentClass, contact, email) {
+  return request('/auth/register-basic', {
+    method: 'POST',
+    body: { name, age, studentClass, contact, email },
+  });
+}
+
+export async function apiSetPassword(userId, password) {
+  return request('/auth/set-password', {
+    method: 'POST',
+    body: { userId, password },
+  });
+}
+
+export async function apiLoginPassword(email, password) {
+  return request('/auth/login-password', {
+    method: 'POST',
+    body: { email, password },
+  });
+}
+
 
 export async function apiSetProfile(userId, name, ageClass, city, address, profileImage) {
   return request('/auth/set-profile', {

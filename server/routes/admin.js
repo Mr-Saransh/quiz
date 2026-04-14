@@ -141,4 +141,51 @@ router.delete('/lessons/:id', async (req, res) => {
   }
 });
 
+// ===== MENTOR MANAGEMENT =====
+
+// Admin: Get all mentors
+router.get('/mentors', async (req, res) => {
+  try {
+    const mentors = await prisma.mentor.findMany({
+      orderBy: { order: 'asc' }
+    });
+    res.json(mentors);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Admin: Create/Update mentor
+router.post('/mentors', async (req, res) => {
+  try {
+    const { id, name, photo, description, iitBranch, order } = req.body;
+    
+    if (id) {
+      const mentor = await prisma.mentor.update({
+        where: { id },
+        data: { name, photo, description, iitBranch, order: parseInt(order) || 0 }
+      });
+      return res.json(mentor);
+    } else {
+      const mentor = await prisma.mentor.create({
+        data: { name, photo, description, iitBranch, order: parseInt(order) || 0 }
+      });
+      return res.status(201).json(mentor);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Admin: Delete mentor
+router.delete('/mentors/:id', async (req, res) => {
+  try {
+    await prisma.mentor.delete({ where: { id: req.params.id } });
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete mentor' });
+  }
+});
+
 export default router;
+
