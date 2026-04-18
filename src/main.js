@@ -16,6 +16,7 @@ import './styles/course-assessment.css';
 import { registerRoute, initRouter } from './router.js';
 import { initStorage } from './utils/storage.js';
 import { renderNavbar } from './components/navbar.js';
+import { renderWhatsAppButton } from './components/whatsapp.js';
 
 import { renderLanding } from './pages/landing.js';
 import { renderAuth } from './pages/auth.js';
@@ -55,10 +56,15 @@ registerRoute('/course-assessment', renderCourseAssessment);
 // Start router
 initRouter();
 
-// Initialize and sync global Navbar
+// Initialize global components
 renderNavbar();
+renderWhatsAppButton();
+
 window.addEventListener('hashchange', () => {
     // Small delay to ensure route hash is updated in router
-    setTimeout(renderNavbar, 50);
+    setTimeout(() => {
+        renderNavbar();
+        renderWhatsAppButton();
+    }, 50);
 });
 
